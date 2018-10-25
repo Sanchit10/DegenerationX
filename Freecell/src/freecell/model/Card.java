@@ -1,18 +1,10 @@
 package freecell.model;
 
-import java.util.Stack;
-
 public class Card {
-
-
-  // static because we need this deck in the getdeck method, change if you have a better alternative.
-
-  static Stack<Card> deckOfCards;
 
   private int rank;
   private char symbol;
   private suits cardSuit;
-
 
   /**
    * Enumeration represents the suits in a standard deck of cards.
@@ -43,27 +35,7 @@ public class Card {
     } else {
       throw new IllegalArgumentException("Invalid playing card");
     }
-
-
   }
-
-  /**
-   * A method that creates a valid deck of 52 cards, 13 in each suit and stores the deck as a stack.
-   * of card objects
-   */
-  private void createDeck() {
-    deckOfCards = new Stack<>();
-    int CARDS_PER_SUIT = 13;
-    for (int i = 1; i <= CARDS_PER_SUIT; i++) {
-      int SUITS_PER_DECK = 4;
-      for (int j = 1; j <= SUITS_PER_DECK; j++) {
-        deckOfCards.add(new Card(i, j));
-      }
-    }
-  }
-
-
-
 
   /**
    * A method that is used to return the card object in the form of a string.
@@ -87,28 +59,26 @@ public class Card {
 
   }
 
-
-
-
-// still need to think about all the getters !
-
-
-
-
-
+  /**
+   * Getter for the suit of this card.
+   */
   Enum<suits> getSuit() {
     return this.cardSuit;
   }
 
+  /**
+   * Getter for the rank of this card.
+   */
   int getRank() {
     return this.rank;
   }
 
-//  char getSymbol(){
-//    return this.symbol;
-//  }
-
-
+  /**
+   * Getter for the symbol of this card.
+   */
+  char getSymbol() {
+    return this.symbol;
+  }
 }
 
 

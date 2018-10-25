@@ -1,3 +1,5 @@
+package freecell.model;
+
 import java.util.List;
 
 import freecell.model.FreecellModel;
