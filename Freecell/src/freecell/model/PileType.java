@@ -1,3 +1,5 @@
+package freecell.model;
+
 /**
  * Type for the three types of piles in a game of Freecell. <br>
  * Open: This pile can hold only one card. It is like a buffer to temporarily

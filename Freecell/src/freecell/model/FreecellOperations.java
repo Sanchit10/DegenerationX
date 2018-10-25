@@ -1,3 +1,4 @@
+package freecell.model;
 
 import java.util.List;
 
@@ -6,7 +7,7 @@ import java.util.List;
  * card type, i.e. when you implement it, you can substitute K with your
  * implementation of a card.
  */
-public interface FreecellOperations<K> {
+public interface FreecellOperations<Card> {
 
 
   /**
@@ -19,7 +20,7 @@ public interface FreecellOperations<K> {
    *
    * @return the deck of cards as a list
    */
-  List<K> getDeck();
+  List<Card> getDeck();
 
   /**
    * Deal a new game of freecell with the given deck, with or without shuffling
@@ -34,13 +35,13 @@ public interface FreecellOperations<K> {
    * @param shuffle if true, shuffle the deck else deal the deck as-is
    * @throws IllegalArgumentException if the deck is invalid
    */
-  void startGame(List<K> deck, boolean shuffle) throws IllegalArgumentException;
+  void startGame(List<Card> deck, boolean shuffle) throws IllegalArgumentException;
 
   /**
    * Move a card from the given source pile to the given destination pile, if
    * the move is valid.
    *
-   * @param source         the type of the source pile see @link{PileType}
+   * @param source         the type of the source pile see @link{freecell.model.PileType}
    * @param pileNumber     the pile number of the given type, starting at 0
    * @param cardIndex      the index of the card to be moved from the source
    *                       pile, starting at 0
