@@ -1,12 +1,18 @@
 package freecell.model;
 
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Stack;
 
 public class FreecellModel implements FreecellOperations {
 
   private int numberOfCascadePiles;
   private int numberOfOpenPiles;
   private int numberOfFoundationPiles;
+
+  private Stack[][] gameStacks;
 
   /**
    * Constructor used in builder class.
@@ -15,6 +21,7 @@ public class FreecellModel implements FreecellOperations {
     this.numberOfCascadePiles = numberOfCascadePiles;
     this.numberOfOpenPiles = numberOfOpenPiles;
     this.numberOfFoundationPiles = 4;
+    this.gameStacks = new Stack[3][];
   }
 
   /**
@@ -85,7 +92,21 @@ public class FreecellModel implements FreecellOperations {
 
   @Override
   public void startGame(List deck, boolean shuffle) throws IllegalArgumentException {
+    if (shuffle) {
+      Collections.shuffle(deck);
+    }
+    //cast deck to LL
+    LinkedList thisDeck = (LinkedList) deck;
 
+    // populate the second dimensions of arrays
+    this.gameStacks[PileType.FOUNDATION.ordinal()] = new Stack[4];
+    this.gameStacks[PileType.CASCADE.ordinal()] = new Stack[this.numberOfCascadePiles];
+    this.gameStacks[PileType.OPEN.ordinal()] = new Stack[this.numberOfOpenPiles];
+
+    // deal cards to cascade piles
+    for (int i = 0; !thisDeck.isEmpty(); i++){
+      this.gameStacks[PileType.CASCADE.ordinal()][i % 3].push(thisDeck.pop());
+    }
   }
 
   @Override

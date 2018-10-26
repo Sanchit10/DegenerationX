@@ -10,14 +10,5 @@ public class main {
     System.out.println(myCard.toString());
     System.out.println(myCard.getSuit());
 
-
-
-
-
-
-
-
-
   }
-
 }
