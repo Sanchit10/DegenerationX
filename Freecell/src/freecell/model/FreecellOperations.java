@@ -37,8 +37,6 @@ public interface FreecellOperations<Card> {
    */
   void startGame(List<Card> deck, boolean shuffle) throws IllegalArgumentException;
 
-  void startGame(List<freecell.model.Card> deck, boolean shuffle) throws IllegalArgumentException;
-
   /**
    * Move a card from the given source pile to the given destination pile, if
    * the move is valid.

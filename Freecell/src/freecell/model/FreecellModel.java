@@ -112,15 +112,22 @@ public class FreecellModel implements FreecellOperations {
   @Override
   public void move(PileType source, int pileNumber, int cardIndex, PileType destination, int destPileNumber) throws IllegalArgumentException, IllegalStateException {
 
+
   }
 
   @Override
   public boolean isGameOver() {
-    return false;
+    for(Stack s : this.gameStacks[PileType.FOUNDATION.ordinal()]){
+      if(s.size() != 13){
+        return false;
+      }
+    }
+    return true;
   }
 
   @Override
   public String getGameState() {
+
     return null;
   }
 

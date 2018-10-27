@@ -11,7 +11,7 @@ public class Deck {
    * Constructor.
    */
   public Deck() {
-    this.deckOfCards = new Stack<>();
+    this.deckOfCards = new LinkedList<>();
     int CARDS_PER_SUIT = 13;
     for (int i = 1; i <= CARDS_PER_SUIT; i++) {
       int SUITS_PER_DECK = 4;
