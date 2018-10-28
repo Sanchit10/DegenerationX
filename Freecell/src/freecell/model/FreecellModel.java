@@ -1,10 +1,8 @@
 package freecell.model;
 
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Stack;
 
 public class FreecellModel implements FreecellOperations {
 
@@ -12,7 +10,7 @@ public class FreecellModel implements FreecellOperations {
   private int numberOfOpenPiles;
   private int numberOfFoundationPiles;
 
-  private Stack[][] gameStacks;
+  private LinkedList[][] gameStacks;
 
   /**
    * Constructor used in builder class.
@@ -21,7 +19,7 @@ public class FreecellModel implements FreecellOperations {
     this.numberOfCascadePiles = numberOfCascadePiles;
     this.numberOfOpenPiles = numberOfOpenPiles;
     this.numberOfFoundationPiles = 4;
-    this.gameStacks = new Stack[3][];
+    this.gameStacks = new LinkedList[3][];
   }
 
   /**
@@ -99,9 +97,9 @@ public class FreecellModel implements FreecellOperations {
     LinkedList thisDeck = (LinkedList) deck;
 
     // populate the second dimensions of arrays
-    this.gameStacks[PileType.FOUNDATION.ordinal()] = new Stack[4];
-    this.gameStacks[PileType.CASCADE.ordinal()] = new Stack[this.numberOfCascadePiles];
-    this.gameStacks[PileType.OPEN.ordinal()] = new Stack[this.numberOfOpenPiles];
+    this.gameStacks[PileType.FOUNDATION.ordinal()] = new LinkedList[4];
+    this.gameStacks[PileType.CASCADE.ordinal()] = new LinkedList[this.numberOfCascadePiles];
+    this.gameStacks[PileType.OPEN.ordinal()] = new LinkedList[this.numberOfOpenPiles];
 
     // deal cards to cascade piles
     for (int i = 0; !thisDeck.isEmpty(); i++){
@@ -117,8 +115,8 @@ public class FreecellModel implements FreecellOperations {
 
   @Override
   public boolean isGameOver() {
-    for(Stack s : this.gameStacks[PileType.FOUNDATION.ordinal()]){
-      if(s.size() != 13){
+    for(LinkedList ll : this.gameStacks[PileType.FOUNDATION.ordinal()]){
+      if(ll.size() != 13){
         return false;
       }
     }
