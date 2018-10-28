@@ -142,7 +142,36 @@ public class FreecellModel implements FreecellOperations {
 
   @Override
   public String getGameState() {
-    return null;
+    StringBuilder sb = new StringBuilder();
+
+    //foundation piles
+    for(int i = 0; i < this.numberOfFoundationPiles; i++){
+      sb.append("F" + (i+1) + ": ");
+      for(int j = 0; j < this.gameStacks[PileType.FOUNDATION.ordinal()][i].size(); j++) {
+        Card card = (Card) this.gameStacks[PileType.FOUNDATION.ordinal()][i].get(j);
+        sb.append(card.toString());
+      }
+      sb.append("\n");
+    }
+    //open piles
+    for(int i =0; i < this.numberOfOpenPiles; i++){
+      sb.append("O"+ (i+1) + ": ");
+      for(int j = 0; j < this.gameStacks[PileType.OPEN.ordinal()][i].size(); j++) {
+        Card card = (Card) this.gameStacks[PileType.OPEN.ordinal()][i].get(j);
+        sb.append(card.toString());
+      }
+      sb.append("\n");
+    }
+    //cascade piles
+    for(int i =0; i < this.numberOfCascadePiles; i++){
+      sb.append("C"+ (i+1) + ": ");
+      for(int j = 0; j < this.gameStacks[PileType.CASCADE.ordinal()][i].size(); j++) {
+        Card card = (Card) this.gameStacks[PileType.CASCADE.ordinal()][i].get(j);
+        sb.append(card.toString());
+      }
+      sb.append("\n");
+    }
+    return sb.toString().trim();
   }
 
 
