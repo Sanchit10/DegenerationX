@@ -160,8 +160,8 @@ public class FreecellModel implements FreecellOperations {
 
   @Override
   public boolean isGameOver() {
-    for (LinkedList ll : this.gameStacks[PileType.FOUNDATION.ordinal()]) {
-      if (ll.size() != 13) {
+    for(int i = 0; i < 4; i++){
+      if (this.gameStacks[PileType.FOUNDATION.ordinal()][i].size() != 13) {
         return false;
       }
     }
@@ -174,18 +174,16 @@ public class FreecellModel implements FreecellOperations {
     if (!isGameStarted) {
       return "";
     }
-
     StringBuilder sb = new StringBuilder();
-
     //foundation piles
     for (int i = 0; i < this.numberOfFoundationPiles; i++) {
       sb.append("F" + (i + 1) + ":");
       if(this.gameStacks[PileType.FOUNDATION.ordinal()][i].size() > 0){
         sb.append(" ");
       }
-      for (int j = 0; j < this.gameStacks[PileType.FOUNDATION.ordinal()][i].size(); j++) {
+      for (int j = this.gameStacks[PileType.FOUNDATION.ordinal()][i].size() - 1; j >= 0; j--) {
         Card card = (Card) this.gameStacks[PileType.FOUNDATION.ordinal()][i].get(j);
-        if (j == this.gameStacks[PileType.FOUNDATION.ordinal()][i].size() - 1) {
+        if (j == 0) {
           sb.append(card.toString());
         } else {
           sb.append(card.toString() + ", ");
@@ -199,9 +197,9 @@ public class FreecellModel implements FreecellOperations {
       if(this.gameStacks[PileType.OPEN.ordinal()][i].size() > 0){
         sb.append(" ");
       }
-      for (int j = 0; j < this.gameStacks[PileType.OPEN.ordinal()][i].size(); j++) {
+      for (int j = this.gameStacks[PileType.OPEN.ordinal()][i].size() - 1; j >= 0; j--) {
         Card card = (Card) this.gameStacks[PileType.OPEN.ordinal()][i].get(j);
-        if (j == this.gameStacks[PileType.OPEN.ordinal()][i].size() - 1) {
+        if (j == 0) {
           sb.append(card.toString());
         } else {
           sb.append(card.toString() + ", ");
@@ -215,9 +213,9 @@ public class FreecellModel implements FreecellOperations {
       if(this.gameStacks[PileType.CASCADE.ordinal()][i].size() > 0){
         sb.append(" ");
       }
-      for (int j = 0; j < this.gameStacks[PileType.CASCADE.ordinal()][i].size(); j++) {
+      for (int j = this.gameStacks[PileType.CASCADE.ordinal()][i].size() - 1; j >= 0; j--) {
         Card card = (Card) this.gameStacks[PileType.CASCADE.ordinal()][i].get(j);
-        if (j == this.gameStacks[PileType.CASCADE.ordinal()][i].size() - 1) {
+        if (j == 0) {
           sb.append(card.toString());
         } else {
           sb.append(card.toString() + ", ");
@@ -226,7 +224,6 @@ public class FreecellModel implements FreecellOperations {
       sb.append("\n");
     }
     return sb.toString().trim();
-
   }
 
   private boolean helperIsDeckValid(List<Card> myList) {
