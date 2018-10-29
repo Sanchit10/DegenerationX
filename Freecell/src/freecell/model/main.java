@@ -8,13 +8,21 @@ public class main {
   public static void main(String args[]){
 
     FreecellModel myModel = FreecellModel.getBuilder()
-        .cascades(4).opens(3).build();
+        .cascades(4).opens(12).build();
     List myList = myModel.getDeck();
     myModel.startGame(myList,false);
     System.out.println(myModel.getGameState());
 
     myModel.move(PileType.CASCADE,0,12,PileType.OPEN,0);
     System.out.println(myModel.getGameState());
+
+    myModel.move(PileType.CASCADE,1,12,PileType.OPEN,1);
+    System.out.println(myModel.getGameState());
+
+    myModel.move(PileType.CASCADE,1,11,PileType.FOUNDATION,0);
+    System.out.println(myModel.getGameState());
+
+
 
 //    System.out.println();
 //    System.out.println(myModel.getGameState());

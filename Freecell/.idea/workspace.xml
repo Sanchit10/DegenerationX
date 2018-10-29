@@ -2,9 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="472f4aa7-d652-4ba0-aa39-3e09ca0f1948" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Archive.zip" beforeDir="false" afterPath="$PROJECT_DIR$/Archive.zip" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/freecell/model/Card.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/freecell/model/Card.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/freecell/model/Deck.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/freecell/model/Deck.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Freecell/freecell/model/FreeCellModel.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Freecell/freecell/model/FreeCellModel.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Freecell/freecell/model/FreecellModel$FreecellModelBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Freecell/freecell/model/FreecellModel$FreecellModelBuilder.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Freecell/freecell/model/PileType.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Freecell/freecell/model/PileType.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Freecell/freecell/model/main.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Freecell/freecell/model/main.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/freecell/model/FreecellModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/freecell/model/FreecellModel.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/freecell/model/PileType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/freecell/model/PileType.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/freecell/model/main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/freecell/model/main.java" afterDir="false" />
@@ -73,12 +76,12 @@
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="dummy" value="1" />
-          <entry key="java" value="7795" />
+          <entry key="java" value="8428" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="JAVA" value="7795" />
+          <entry key="JAVA" value="8428" />
           <entry key="PLAIN_TEXT" value="1" />
         </counts>
       </usages-collector>
@@ -89,7 +92,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/freecell/model/FreecellOperations.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-825">
+            <state relative-caret-position="180">
               <caret line="12" column="5" lean-forward="true" selection-start-line="12" selection-start-column="5" selection-end-line="12" selection-end-column="5" />
             </state>
           </provider>
@@ -99,7 +102,7 @@
         <entry file="file://$PROJECT_DIR$/test/freecell/model/FreecellOperationsTest.java">
           <provider selected="true" editor-type-id="text-editor">
             <state>
-              <caret column="23" selection-start-column="23" selection-end-column="23" />
+              <caret column="23" lean-forward="true" selection-start-column="23" selection-end-column="23" />
             </state>
           </provider>
         </entry>
@@ -116,8 +119,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/freecell/model/FreecellModel.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="378">
-              <caret line="399" column="7" lean-forward="true" selection-start-line="399" selection-start-column="7" selection-end-line="399" selection-end-column="7" />
+            <state relative-caret-position="408">
+              <caret line="432" column="9" selection-start-line="432" selection-start-column="9" selection-end-line="432" selection-end-column="9" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#803#804#0" expanded="true" />
@@ -130,8 +133,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/freecell/model/PileType.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="225">
-              <caret line="15" column="23" selection-start-line="15" selection-start-column="23" selection-end-line="15" selection-end-column="23" />
+            <state relative-caret-position="240">
+              <caret line="16" column="1" lean-forward="true" selection-start-line="16" selection-start-column="1" selection-end-line="16" selection-end-column="1" />
             </state>
           </provider>
         </entry>
@@ -139,8 +142,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/freecell/model/main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="227">
-              <caret line="16" column="47" selection-start-line="16" selection-start-column="47" selection-end-line="16" selection-end-column="47" />
+            <state relative-caret-position="168">
+              <caret line="21" selection-start-line="21" selection-end-line="21" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -151,12 +154,11 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/freecell/model/Card.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-465">
-              <caret line="27" column="67" selection-start-line="27" selection-start-column="67" selection-end-line="27" selection-end-column="67" />
+            <state relative-caret-position="195">
+              <caret line="71" selection-start-line="71" selection-end-line="71" />
               <folding>
                 <element signature="e#1582#1583#0" expanded="true" />
                 <element signature="e#1612#1613#0" expanded="true" />
-                <element signature="e#1682#1683#0" expanded="true" />
                 <element signature="e#1708#1709#0" expanded="true" />
                 <element signature="e#1783#1784#0" expanded="true" />
                 <element signature="e#1811#1812#0" expanded="true" />
@@ -168,8 +170,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/freecell/model/Deck.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="240">
-              <caret line="18" column="18" lean-forward="true" selection-start-line="18" selection-start-column="18" selection-end-line="18" selection-end-column="18" />
+            <state relative-caret-position="165">
+              <caret line="15" column="30" selection-start-line="15" selection-start-column="30" selection-end-line="15" selection-end-column="30" />
               <folding>
                 <element signature="e#562#563#0" expanded="true" />
                 <element signature="e#595#596#0" expanded="true" />
@@ -224,9 +226,9 @@
         <option value="$PROJECT_DIR$/test/freecell/model/FreecellOperationsTest.java" />
         <option value="$PROJECT_DIR$/src/freecell/model/Hw02TypeChecks.java" />
         <option value="$PROJECT_DIR$/src/freecell/model/FreecellOperations.java" />
-        <option value="$PROJECT_DIR$/src/freecell/model/Deck.java" />
-        <option value="$PROJECT_DIR$/src/freecell/model/PileType.java" />
         <option value="$PROJECT_DIR$/src/freecell/model/Card.java" />
+        <option value="$PROJECT_DIR$/src/freecell/model/PileType.java" />
+        <option value="$PROJECT_DIR$/src/freecell/model/Deck.java" />
         <option value="$PROJECT_DIR$/src/freecell/model/main.java" />
         <option value="$PROJECT_DIR$/src/freecell/model/FreecellModel.java" />
       </list>
@@ -280,7 +282,7 @@
     <property name="Repository.Attach.Sources" value="false" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1540840400704" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1540848834816" />
     <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary" value="JUnit4" />
     <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit4" value="" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
@@ -362,12 +364,12 @@
       <workItem from="1540409286786" duration="12381000" />
       <workItem from="1540437467140" duration="1939000" />
       <workItem from="1540439804685" duration="6906000" />
-      <workItem from="1540757020102" duration="32989000" />
+      <workItem from="1540757020102" duration="40793000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="55943000" />
+    <option name="totallyTimeSpent" value="63747000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
@@ -409,6 +411,18 @@
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
   </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/freecell/model/main.java</url>
+          <line>21</line>
+          <properties />
+          <option name="timeStamp" value="39" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/src/Hw02TypeChecks.java" />
     <entry file="jar:///Library/Java/JavaVirtualMachines/jdk-10.0.2.jdk/Contents/Home/lib/src.zip!/java.base/java/lang/Object.java">
@@ -442,26 +456,15 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/freecell/model/FreecellOperations.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-825">
+        <state relative-caret-position="180">
           <caret line="12" column="5" lean-forward="true" selection-start-line="12" selection-start-column="5" selection-end-line="12" selection-end-column="5" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/freecell/model/Deck.java">
+    <entry file="file://$PROJECT_DIR$/src/freecell/model/PileType.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="240">
-          <caret line="18" column="18" lean-forward="true" selection-start-line="18" selection-start-column="18" selection-end-line="18" selection-end-column="18" />
-          <folding>
-            <element signature="e#562#563#0" expanded="true" />
-            <element signature="e#595#596#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/test/freecell/model/FreecellOperationsTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="23" selection-start-column="23" selection-end-column="23" />
+          <caret line="16" column="1" lean-forward="true" selection-start-line="16" selection-start-column="1" selection-end-line="16" selection-end-column="1" />
         </state>
       </provider>
     </entry>
@@ -472,21 +475,41 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/freecell/model/PileType.java">
+    <entry file="file://$PROJECT_DIR$/test/freecell/model/FreecellOperationsTest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="225">
-          <caret line="15" column="23" selection-start-line="15" selection-start-column="23" selection-end-line="15" selection-end-column="23" />
+        <state>
+          <caret column="23" lean-forward="true" selection-start-column="23" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/freecell/model/Deck.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="165">
+          <caret line="15" column="30" selection-start-line="15" selection-start-column="30" selection-end-line="15" selection-end-column="30" />
+          <folding>
+            <element signature="e#562#563#0" expanded="true" />
+            <element signature="e#595#596#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/freecell/model/main.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="168">
+          <caret line="21" selection-start-line="21" selection-end-line="21" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/freecell/model/Card.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-465">
-          <caret line="27" column="67" selection-start-line="27" selection-start-column="67" selection-end-line="27" selection-end-column="67" />
+        <state relative-caret-position="195">
+          <caret line="71" selection-start-line="71" selection-end-line="71" />
           <folding>
             <element signature="e#1582#1583#0" expanded="true" />
             <element signature="e#1612#1613#0" expanded="true" />
-            <element signature="e#1682#1683#0" expanded="true" />
             <element signature="e#1708#1709#0" expanded="true" />
             <element signature="e#1783#1784#0" expanded="true" />
             <element signature="e#1811#1812#0" expanded="true" />
@@ -494,20 +517,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/freecell/model/main.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="227">
-          <caret line="16" column="47" selection-start-line="16" selection-start-column="47" selection-end-line="16" selection-end-column="47" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/freecell/model/FreecellModel.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="378">
-          <caret line="399" column="7" lean-forward="true" selection-start-line="399" selection-start-column="7" selection-end-line="399" selection-end-column="7" />
+        <state relative-caret-position="408">
+          <caret line="432" column="9" selection-start-line="432" selection-start-column="9" selection-end-line="432" selection-end-column="9" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#803#804#0" expanded="true" />

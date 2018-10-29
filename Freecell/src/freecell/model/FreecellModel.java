@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.PrimitiveIterator;
 import java.util.Set;
 
 public class FreecellModel implements FreecellOperations {
@@ -174,18 +175,16 @@ public class FreecellModel implements FreecellOperations {
     if (!isGameStarted) {
       return "";
     }
-
     StringBuilder sb = new StringBuilder();
-
     //foundation piles
     for (int i = 0; i < this.numberOfFoundationPiles; i++) {
       sb.append("F" + (i + 1) + ":");
       if(this.gameStacks[PileType.FOUNDATION.ordinal()][i].size() > 0){
         sb.append(" ");
       }
-      for (int j = 0; j < this.gameStacks[PileType.FOUNDATION.ordinal()][i].size(); j++) {
+      for (int j = this.gameStacks[PileType.FOUNDATION.ordinal()][i].size() - 1; j >= 0; j--) {
         Card card = (Card) this.gameStacks[PileType.FOUNDATION.ordinal()][i].get(j);
-        if (j == this.gameStacks[PileType.FOUNDATION.ordinal()][i].size() - 1) {
+        if (j == 0) {
           sb.append(card.toString());
         } else {
           sb.append(card.toString() + ", ");
@@ -199,9 +198,9 @@ public class FreecellModel implements FreecellOperations {
       if(this.gameStacks[PileType.OPEN.ordinal()][i].size() > 0){
         sb.append(" ");
       }
-      for (int j = 0; j < this.gameStacks[PileType.OPEN.ordinal()][i].size(); j++) {
+      for (int j = this.gameStacks[PileType.OPEN.ordinal()][i].size() - 1; j >= 0; j--) {
         Card card = (Card) this.gameStacks[PileType.OPEN.ordinal()][i].get(j);
-        if (j == this.gameStacks[PileType.OPEN.ordinal()][i].size() - 1) {
+        if (j == 0) {
           sb.append(card.toString());
         } else {
           sb.append(card.toString() + ", ");
@@ -215,9 +214,9 @@ public class FreecellModel implements FreecellOperations {
       if(this.gameStacks[PileType.CASCADE.ordinal()][i].size() > 0){
         sb.append(" ");
       }
-      for (int j = 0; j < this.gameStacks[PileType.CASCADE.ordinal()][i].size(); j++) {
+      for (int j = this.gameStacks[PileType.CASCADE.ordinal()][i].size() - 1; j >= 0; j--) {
         Card card = (Card) this.gameStacks[PileType.CASCADE.ordinal()][i].get(j);
-        if (j == this.gameStacks[PileType.CASCADE.ordinal()][i].size() - 1) {
+        if (j == 0) {
           sb.append(card.toString());
         } else {
           sb.append(card.toString() + ", ");
@@ -230,7 +229,6 @@ public class FreecellModel implements FreecellOperations {
   }
 
   private boolean helperIsDeckValid(List<Card> myList) {
-//    if(myList==null)return false;
     Set mySet = new HashSet<>();
     if (myList.size() != 52) {
       return false;
@@ -261,7 +259,7 @@ public class FreecellModel implements FreecellOperations {
 
 
     // check if the card to be moved is one from the foundation piles
-    if (source.ordinal() == 0) {
+    if (source.ordinal() == PileType.FOUNDATION.ordinal()) {
       if (source.ordinal() == destination.ordinal() && pileNumber == destPileNumber) {
         Card myCard = (Card) this.gameStacks[source.ordinal()][pileNumber].removeLast();
         this.gameStacks[source.ordinal()][pileNumber].addLast(myCard);
@@ -271,38 +269,34 @@ public class FreecellModel implements FreecellOperations {
       }
     }
     //check if the card to be moved is moving from the same source pile to the same destination pile
-    if (source.ordinal() == destination.ordinal() && pileNumber == destPileNumber) {
-      Card myCard = (Card) this.gameStacks[source.ordinal()][pileNumber].removeLast();
-      this.gameStacks[source.ordinal()][pileNumber].addLast(myCard);
 
-    }
     //pile numbers negative
     if (pileNumber < 0 || destPileNumber < 0) {
       throw new IllegalArgumentException("The pile numbers cannot be negative");
     }
     //pile numbers not equal to the actual number of piles
-    if (source.ordinal() == 1 && pileNumber > (this.numberOfCascadePiles - 1)) {
+    if (source.ordinal() == PileType.CASCADE.ordinal() && pileNumber > (this.numberOfCascadePiles - 1)) {
       throw new IllegalArgumentException("Invalid pile number");
     }
     //pile numbers not equal to the actual number of piles
-    if (destination.ordinal() == 1 && destPileNumber > (this.numberOfCascadePiles - 1)) {
+    if (destination.ordinal() == PileType.CASCADE.ordinal() && destPileNumber > (this.numberOfCascadePiles - 1)) {
       throw new IllegalArgumentException("Invalid pile number");
     }
 
     //invalid destination pile number
-    if (source.ordinal() == 1 && destination.ordinal() == 2 && destPileNumber > (
+    if (source.ordinal() == PileType.CASCADE.ordinal() && destination.ordinal() == PileType.OPEN.ordinal() && destPileNumber > (
         this.numberOfOpenPiles - 1)) {
       throw new IllegalArgumentException("Invalid destination pile number");
     }
 
 
-    if (source.ordinal() == 1 && destination.ordinal() == 0 && destPileNumber > (3)) {
+    if (source.ordinal() == PileType.CASCADE.ordinal() && destination.ordinal() == PileType.FOUNDATION.ordinal()&& destPileNumber > (3)) {
       throw new IllegalArgumentException("Invalid destination pile number");
     }
-    if (source.ordinal() == 2 && pileNumber > (this.numberOfOpenPiles - 1)) {
+    if (source.ordinal() == PileType.OPEN.ordinal() && pileNumber > (this.numberOfOpenPiles - 1)) {
       throw new IllegalArgumentException("Invalid pile number");
     }
-    if (destination.ordinal() == 2 && destPileNumber > (this.numberOfOpenPiles - 1)) {
+    if (destination.ordinal() == PileType.OPEN.ordinal() && destPileNumber > (this.numberOfOpenPiles - 1)) {
       throw new IllegalArgumentException("Invalid pile number");
     }
 
@@ -316,8 +310,8 @@ public class FreecellModel implements FreecellOperations {
 
     // cascade to cascade
     //open to cascade
-    if (source.ordinal() == 1 && destination.ordinal() == 1
-        || source.ordinal() == 2 && destination.ordinal() == 1) {
+    if (source.ordinal() == PileType.CASCADE.ordinal() && destination.ordinal() == PileType.CASCADE.ordinal()
+        || source.ordinal() == PileType.OPEN.ordinal() && destination.ordinal() == PileType.CASCADE.ordinal()) {
 
       // take the cards from the source and the destination piles to compare on the basis of the game rules
       Card myCard1 = (Card) this.gameStacks[source.ordinal()][pileNumber].removeLast();
@@ -358,7 +352,7 @@ public class FreecellModel implements FreecellOperations {
 
     //cascade to open move
 
-    if (source.ordinal() == 1 && destination.ordinal() == 2) {
+    if (source.ordinal() == PileType.CASCADE.ordinal() && destination.ordinal() == PileType.OPEN.ordinal()) {
       Card myCard1 = (Card) this.gameStacks[source.ordinal()][pileNumber].removeLast(); // remove the card on top of the source pile
       if (this.gameStacks[destination.ordinal()][destPileNumber].size() != 0) { //check if open pile is empty or not
 
@@ -372,53 +366,35 @@ public class FreecellModel implements FreecellOperations {
     //cascade to foundation!!!
     //open to foundation
 
-    if (source.ordinal() == 1 && destination.ordinal() == 0
-        || source.ordinal() == 2 && destination.ordinal() == 0) {
-      Card myCard1 = (Card) this.gameStacks[source.ordinal()][pileNumber].removeLast();
-      if (myCard1.getRank() == 1
-          && this.gameStacks[destination.ordinal()][destPileNumber].size() != 0) {
-        throw new IllegalArgumentException(
-            "The card cannot added to the foundation pile because the rank is incorrect in accordance to the rules of the game");
+    if (source.ordinal() == PileType.CASCADE.ordinal() && destination.ordinal() == PileType.FOUNDATION.ordinal()
+        || source.ordinal() == PileType.OPEN.ordinal() && destination.ordinal() == PileType.FOUNDATION.ordinal()) {
+      Card myCard = (Card) this.gameStacks[source.ordinal()][pileNumber].removeLast();
+      if(myCard.getRank()==1&&this.gameStacks[destination.ordinal()][destPileNumber].size()==0){
+        this.gameStacks[destination.ordinal()][destPileNumber].addLast(myCard);
       }
-
-      if (this.gameStacks[destination.ordinal()][destPileNumber].size() == 0&&myCard1.getRank()==1) {
-//        if (myCard1.getRank() != 1) {
-//          throw new IllegalArgumentException(
-//              "The card cannot be inserted into a empty foundation pile since it is not of rank 1");
-//        }
-
-//        if (myCard1.getRank() == 1) {
-//          LinkedList<Card> myList;
-          this.gameStacks[destination.ordinal()][destPileNumber].addLast(myCard1);
-//          myList = this.gameStacks[destination.ordinal()][destPileNumber];
-
-          myMap.put(myCard1.getSuit().ordinal(),
-              this.gameStacks[destination.ordinal()][destPileNumber]);
-//        else{
-//          throw new IllegalArgumentException("4654875");
-//        }
+      if(myCard.getRank()==1&&this.gameStacks[destination.ordinal()][destPileNumber].size()!=0){
+        throw new IllegalArgumentException("A card with rank one can only be added to an empty pile");
       }
+      if(myCard.getRank()!=1){
+        if(this.gameStacks[destination.ordinal()][destPileNumber].size()!=0) {
+          Card myCard1 = (Card) this.gameStacks[destination.ordinal()][destPileNumber].removeLast();
+          if (myCard.getSuit().ordinal() == myCard1.getSuit().ordinal()
+              && myCard.getRank() == myCard1.getRank() + 1) {
+            this.gameStacks[destination.ordinal()][destPileNumber].addLast(myCard1);
+            this.gameStacks[destination.ordinal()][destPileNumber].addLast(myCard);
 
-      if (myCard1.getRank() != 1) {
-        if (this.gameStacks[destination.ordinal()][destPileNumber].size() != 0) {
-          Card myCard2 = (Card) this.gameStacks[destination.ordinal()][destPileNumber]
-              .removeLast();
-          if (myMap.containsKey(myCard2.getSuit().ordinal())) {
-            if (myCard2.getSuit().ordinal() != myCard1.getSuit().ordinal()) {
-              throw new IllegalArgumentException(
-                  "The card can only be added to deck consisting of the same suit");
-            }
-            if (myCard2.getRank() != myCard1.getRank() - 1) {
-              throw new IllegalArgumentException(
-                  "The card cannot added to the foundation pile because the rank is incorrect in accordance to the rules of the game");
-
-            } else {
-              this.gameStacks[destination.ordinal()][destPileNumber].addLast(myCard2);
-              this.gameStacks[destination.ordinal()][destPileNumber].addLast(myCard1);
-            }
           }
         }
+        else {
+          throw new IllegalArgumentException("lets roll babe");
+        }
       }
+    }
+
+    if (source.ordinal() == destination.ordinal() && pileNumber == destPileNumber) {
+      Card myCard = (Card) this.gameStacks[source.ordinal()][pileNumber].removeLast();
+      this.gameStacks[source.ordinal()][pileNumber].addLast(myCard);
+
     }
 
 
