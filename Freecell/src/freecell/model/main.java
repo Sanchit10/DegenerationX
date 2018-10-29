@@ -87,5 +87,10 @@ public class main {
     myModel.move(PileType.OPEN,2,0,PileType.FOUNDATION,0);
     System.out.println();
     System.out.println(myModel.getGameState());
+    System.out.println();
+
+    myModel.startGame(myList,false);
+    System.out.println(myModel.getGameState());
+
   }
 }

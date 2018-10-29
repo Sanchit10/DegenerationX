@@ -11,6 +11,7 @@ public class FreecellModel implements FreecellOperations {
 
 
   private HashMap<Integer, LinkedList<Card>> myMap = new HashMap<>();
+  private boolean isGameStarted;
 
   private int numberOfCascadePiles;
   private int numberOfOpenPiles;
@@ -61,7 +62,7 @@ public class FreecellModel implements FreecellOperations {
      */
     public FreecellOperationsBuilder cascades(int c) {
       if (c < 4 || c > 8) {
-        throw new IllegalStateException("The game can only have cascade piles between 4 and 8");
+        throw new IllegalArgumentException("The game can only have cascade piles between 4 and 8");
       }
       this.numberOfCascadePiles = c;
       return this;
@@ -74,8 +75,8 @@ public class FreecellModel implements FreecellOperations {
      * @return FreecellOperationsBuilder
      */
     public FreecellOperationsBuilder opens(int o) {
-      if (o < 1 || o > 4) {
-        throw new IllegalStateException("The game can only have open piles between 1 and 4");
+      if (o < 1) {
+        throw new IllegalArgumentException("The game can only have cascade piles between 4 and 8");
       }
       this.numberOfOpenPiles = o;
       return this;
@@ -84,14 +85,16 @@ public class FreecellModel implements FreecellOperations {
     /**
      * Build function for builder class.
      */
-    public <Card> FreecellModel build() {
+    public FreecellModel build() {
       return new FreecellModel(this.numberOfCascadePiles, this.numberOfOpenPiles);
     }
   }
 
   @Override
-  public List<Card> getDeck() {
-    return new Deck().getDeck();
+  public List getDeck() {
+    LinkedList myList = (LinkedList) new Deck().getDeck();
+    if(myList.size()!=52)throw new IllegalArgumentException("Isdjnfsdf");
+    return myList;
   }
 
   @Override
@@ -103,8 +106,18 @@ public class FreecellModel implements FreecellOperations {
     if (!helperIsDeckValid(deck)) {
       throw new IllegalArgumentException("The deck is invalid");
     }
+
+
+
+    isGameStarted = true;
+
+    LinkedList myList = new LinkedList();
+    for(int i=0;i<deck.size();i++){
+      myList.addLast(deck.get(i));
+    }
+
     //cast deck to LL
-    LinkedList thisDeck = (LinkedList) deck;
+    LinkedList thisDeck = myList;
 
     // populate the second dimensions of arrays
     this.gameStacks[PileType.FOUNDATION.ordinal()] = new LinkedList[4];
@@ -149,6 +162,10 @@ public class FreecellModel implements FreecellOperations {
 
   @Override
   public String getGameState() {
+    if (!isGameStarted) {
+      return "";
+    }
+
     StringBuilder sb = new StringBuilder();
 
     //foundation piles
@@ -156,7 +173,11 @@ public class FreecellModel implements FreecellOperations {
       sb.append("F" + (i + 1) + ": ");
       for (int j = 0; j < this.gameStacks[PileType.FOUNDATION.ordinal()][i].size(); j++) {
         Card card = (Card) this.gameStacks[PileType.FOUNDATION.ordinal()][i].get(j);
-        sb.append(card.toString());
+        if (j == this.gameStacks[PileType.FOUNDATION.ordinal()][i].size() - 1) {
+          sb.append(card.toString());
+        } else {
+          sb.append(card.toString() + ", ");
+        }
       }
       sb.append("\n");
     }
@@ -165,7 +186,11 @@ public class FreecellModel implements FreecellOperations {
       sb.append("O" + (i + 1) + ": ");
       for (int j = 0; j < this.gameStacks[PileType.OPEN.ordinal()][i].size(); j++) {
         Card card = (Card) this.gameStacks[PileType.OPEN.ordinal()][i].get(j);
-        sb.append(card.toString());
+        if (j == this.gameStacks[PileType.OPEN.ordinal()][i].size() - 1) {
+          sb.append(card.toString());
+        } else {
+          sb.append(card.toString() + ", ");
+        }
       }
       sb.append("\n");
     }
@@ -174,7 +199,11 @@ public class FreecellModel implements FreecellOperations {
       sb.append("C" + (i + 1) + ": ");
       for (int j = 0; j < this.gameStacks[PileType.CASCADE.ordinal()][i].size(); j++) {
         Card card = (Card) this.gameStacks[PileType.CASCADE.ordinal()][i].get(j);
-        sb.append(card.toString());
+        if (j == this.gameStacks[PileType.CASCADE.ordinal()][i].size() - 1) {
+          sb.append(card.toString());
+        } else {
+          sb.append(card.toString() + ", ");
+        }
       }
       sb.append("\n");
     }
@@ -183,7 +212,7 @@ public class FreecellModel implements FreecellOperations {
   }
 
   private boolean helperIsDeckValid(List<Card> myList) {
-    Set<Card> mySet = new HashSet<>();
+    Set mySet = new HashSet<>();
     if (myList.size() != 52) {
       return false;
     }
@@ -323,8 +352,9 @@ public class FreecellModel implements FreecellOperations {
       }
 
       if (this.gameStacks[destination.ordinal()][destPileNumber].size() == 0) {
-        if(myCard1.getRank()!=1){
-          throw new IllegalArgumentException("The card cannot be inserted into a empty foundation pile since it is not of rank 1");
+        if (myCard1.getRank() != 1) {
+          throw new IllegalArgumentException(
+              "The card cannot be inserted into a empty foundation pile since it is not of rank 1");
         }
 
         if (myCard1.getRank() == 1) {
@@ -342,8 +372,9 @@ public class FreecellModel implements FreecellOperations {
           Card myCard2 = (Card) this.gameStacks[destination.ordinal()][destPileNumber]
               .removeLast();
           if (myMap.containsKey(myCard2.getSuit().ordinal())) {
-            if(myCard2.getSuit().ordinal()!=myCard1.getSuit().ordinal()){
-              throw new IllegalArgumentException("The card can only be added to deck consisting of the same suit");
+            if (myCard2.getSuit().ordinal() != myCard1.getSuit().ordinal()) {
+              throw new IllegalArgumentException(
+                  "The card can only be added to deck consisting of the same suit");
             }
             if (myCard2.getRank() != myCard1.getRank() - 1) {
               throw new IllegalArgumentException(
