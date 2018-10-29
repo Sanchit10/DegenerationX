@@ -25,7 +25,7 @@ public class Card {
       // init arrays of potential values
       int[] rankArray = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13};//not necessary
       suits[] myArray = {suits.DEFAULT, suits.HEARTS, suits.DIAMONDS, suits.CLUBS, suits.SPADES};
-      char[] uniArray = {'0', '\u2764', '\u2666', '\u2663', '\u2660'};
+      char[] uniArray = {'0', '\u2665', '\u2666', '\u2663', '\u2660'};
 
       // set fields
       this.rank = rankArray[rank];
