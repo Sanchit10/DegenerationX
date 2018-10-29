@@ -13,5 +13,5 @@ package freecell.model;
  * game is to fill up all the foundation piles
  */
 public enum PileType {
-  OPEN, CASCADE, FOUNDATION
+  FOUNDATION, CASCADE, OPEN
 }
