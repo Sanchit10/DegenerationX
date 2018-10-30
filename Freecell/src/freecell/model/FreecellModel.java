@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.PrimitiveIterator;
 import java.util.Set;
 
 public class FreecellModel implements FreecellOperations {
@@ -161,13 +160,40 @@ public class FreecellModel implements FreecellOperations {
 
   @Override
   public boolean isGameOver() {
-    for (LinkedList ll : this.gameStacks[PileType.FOUNDATION.ordinal()]) {
-      if (ll.size() != 13) {
-        return false;
-      }
+//    for (LinkedList ll : this.gameStacks[PileType.FOUNDATION.ordinal()]) {
+//      if (ll.size() != 13) {
+//        return false;
+//      }
+//    }
+
+
+////    isGameStarted=false;
+//    return true;
+
+//    int count =0;
+//    for(int i=0;i<4;i++){
+//      LinkedList myList = this.gameStacks[PileType.FOUNDATION.ordinal()][i];
+//      count++;
+//      }
+//      if(count==4)return true;
+//      return false;
+
+    if(!isGameStarted)return false;
+
+    for(int i=0;i<this.numberOfOpenPiles;i++){
+     if(this.gameStacks[PileType.OPEN.ordinal()][i].size()!=0)return false;
     }
-    isGameStarted=false;
+
+    for(int i=0;i<this.numberOfCascadePiles;i++){
+     if(this.gameStacks[PileType.CASCADE.ordinal()][i].size()!=0)return false;
+    }
+    for(int i=0;i<this.numberOfFoundationPiles;i++){
+      if(this.gameStacks[PileType.FOUNDATION.ordinal()][i].size()!=13) return false;
+
+    }
     return true;
+
+
   }
 
   @Override
@@ -257,6 +283,16 @@ public class FreecellModel implements FreecellOperations {
   private void helper2(PileType source, int pileNumber, int cardIndex, PileType destination,
       int destPileNumber) {
 
+
+//    if(destination.ordinal()==PileType.FOUNDATION.ordinal()&&destPileNumber>3){
+//      throw new IllegalArgumentException("sfdsfdsf");
+//    }
+
+//    if(this.gameStacks[source.ordinal()][pileNumber].size()==0){
+//
+//
+//      throw new IllegalArgumentException("daft punk!");
+//    }
 
     // check if the card to be moved is one from the foundation piles
     if (source.ordinal() == PileType.FOUNDATION.ordinal()) {
@@ -368,13 +404,28 @@ public class FreecellModel implements FreecellOperations {
 
     if (source.ordinal() == PileType.CASCADE.ordinal() && destination.ordinal() == PileType.FOUNDATION.ordinal()
         || source.ordinal() == PileType.OPEN.ordinal() && destination.ordinal() == PileType.FOUNDATION.ordinal()) {
+
+      int h = this.gameStacks[source.ordinal()][pileNumber].size();
+      int b =this.gameStacks[destination.ordinal()][destPileNumber].size();
       Card myCard = (Card) this.gameStacks[source.ordinal()][pileNumber].removeLast();
-      if(myCard.getRank()==1&&this.gameStacks[destination.ordinal()][destPileNumber].size()==0){
-        this.gameStacks[destination.ordinal()][destPileNumber].addLast(myCard);
+      int a = myCard.getRank();
+
+      int c = pileNumber;
+      int d = cardIndex;
+      int e = destPileNumber;
+      int f = source.ordinal();
+      int g = destination.ordinal();
+      if(myCard.getRank()==1) {
+        if (myCard.getRank() == 1
+            && this.gameStacks[destination.ordinal()][destPileNumber].size() != 0) {
+          throw new IllegalArgumentException(
+              a + " " + b + " " + c + " " + d + " " + e + " " + f + " " + g + " " + h);
+
+        } else {
+          this.gameStacks[destination.ordinal()][destPileNumber].addLast(myCard);
+        }
       }
-      if(myCard.getRank()==1&&this.gameStacks[destination.ordinal()][destPileNumber].size()!=0){
-        throw new IllegalArgumentException("A card with rank one can only be added to an empty pile");
-      }
+
       if(myCard.getRank()!=1){
         if(this.gameStacks[destination.ordinal()][destPileNumber].size()!=0) {
           Card myCard1 = (Card) this.gameStacks[destination.ordinal()][destPileNumber].removeLast();
@@ -385,9 +436,9 @@ public class FreecellModel implements FreecellOperations {
 
           }
         }
-        else {
-          throw new IllegalArgumentException("lets roll babe");
-        }
+//        else {
+//          throw new IllegalArgumentException("lets roll babe");
+//        }
       }
     }
 
