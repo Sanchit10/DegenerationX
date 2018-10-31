@@ -13,7 +13,7 @@ public class Deck {
   public Deck() {
     this.deckOfCards = new LinkedList<>();
     int CARDS_PER_SUIT = 13;
-    for (int i =CARDS_PER_SUIT; i > 0; i--) {
+    for (int i =1; i<=  CARDS_PER_SUIT; i++) {
       int SUITS_PER_DECK = 4;
       for (int j = 1; j <= SUITS_PER_DECK; j++) {
         this.deckOfCards.add(new Card(i, j));
