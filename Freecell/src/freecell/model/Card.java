@@ -16,7 +16,7 @@ public class Card {
   /**
    * Constructor.
    */
-  Card(int rank, int suit) throws IllegalArgumentException {
+  public Card(int rank, int suit) throws IllegalArgumentException {
     // if inputs are valid
     if ((rank >= 1 && rank <= 13)
         &&

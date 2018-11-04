@@ -1,18 +1,19 @@
 package freecell.model;
 
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * A class that that implements the FreeCellOperations interface i.e. the entire functionality as.
+ * required for the game of freecell to be working correctly
+ */
 public class FreecellModel implements FreecellOperations {
 
-
-  private HashMap<Integer, LinkedList<Card>> myMap = new HashMap<>();
   private boolean isGameStarted = false;
-
+  private boolean moveMade = false;
   private int numberOfCascadePiles;
   private int numberOfOpenPiles;
   private int numberOfFoundationPiles;
@@ -37,7 +38,7 @@ public class FreecellModel implements FreecellOperations {
   }
 
   /**
-   * Nested builder class that implements the FreecellOperationsBuilder
+   * Nested builder class that implements the FreecellOperationsBuilder.
    */
   public static class FreecellModelBuilder implements FreecellOperationsBuilder {
 
@@ -94,7 +95,7 @@ public class FreecellModel implements FreecellOperations {
   public List getDeck() {
     LinkedList myList = (LinkedList) new Deck().getDeck();
     if (myList.size() != 52) {
-      throw new IllegalArgumentException("Isdjnfsdf");
+      throw new IllegalArgumentException("Size of the deck is not 52");
     }
     return myList;
   }
@@ -109,15 +110,8 @@ public class FreecellModel implements FreecellOperations {
     if (shuffle) {
       Collections.shuffle(myList);
     }
-
-//    if(!isGameStarted){
-//      throw new IllegalArgumentException("afafad");
-//    }
-
-    //check if the list is valid
     if (!helperIsDeckValid(myList)) {
-      int a = myList.size();
-      throw new IllegalArgumentException("The deck is invalid" + a);
+      throw new IllegalArgumentException("The deck is invalid");
     }
 
     isGameStarted = true;
@@ -145,6 +139,7 @@ public class FreecellModel implements FreecellOperations {
       this.gameStacks[PileType.CASCADE.ordinal()][i % this.numberOfCascadePiles]
           .push(myList.pop());
     }
+
   }
 
   @Override
@@ -156,110 +151,34 @@ public class FreecellModel implements FreecellOperations {
     }
 
     helper2(source, pileNumber, cardIndex, destination, destPileNumber);
+    this.moveMade = true;
 
   }
 
   @Override
   public boolean isGameOver() {
-//    for (LinkedList ll : this.gameStacks[PileType.FOUNDATION.ordinal()]) {
-//      if (ll.size() != 13) {
-//        return false;
-//      }
-//    }
+    if (!isGameStarted) {
+      return true;
+    }
 
-////    isGameStarted=false;
-//    return true;
-
-//    int count =0;
-//    for(int i=0;i<4;i++){
-//      LinkedList myList = this.gameStacks[PileType.FOUNDATION.ordinal()][i];
-//      count++;
-//      }
-//      if(count==4)return true;
-//      return false;
-
-//    if(!isGameStarted)return false;
-//
-//    for(int i=0;i<this.numberOfOpenPiles;i++){
-//     if(this.gameStacks[PileType.OPEN.ordinal()][i].size()!=0)return false;
-//    }
-//
-//    for(int i=0;i<this.numberOfCascadePiles;i++){
-//     if(this.gameStacks[PileType.CASCADE.ordinal()][i].size()!=0)return false;
-//    }
-//    for(int i=0;i<this.numberOfFoundationPiles;i++){
-//      if(this.gameStacks[PileType.FOUNDATION.ordinal()][i].size()!=13) return false;
-//
-//    }
-//
-//    isGameStarted=false;
-//    return true;
-
-    return (this.gameStacks[PileType.FOUNDATION.ordinal()][0].size() == 13
+    return this.gameStacks[PileType.FOUNDATION.ordinal()][0].size() == 13
         && this.gameStacks[PileType.FOUNDATION.ordinal()][1].size() == 13
         && this.gameStacks[PileType.FOUNDATION.ordinal()][2].size() == 13
-        && this.gameStacks[PileType.FOUNDATION.ordinal()][3].size() == 13);
+        && this.gameStacks[PileType.FOUNDATION.ordinal()][3].size() == 13;
 
   }
 
   @Override
   public String getGameState() {
-    if (!isGameStarted) {
-      return "";
-    }
-    StringBuilder sb = new StringBuilder();
-    //foundation piles
-    for (int i = 0; i < this.numberOfFoundationPiles; i++) {
-      sb.append("F" + (i + 1) + ":");
-      if (this.gameStacks[PileType.FOUNDATION.ordinal()][i].size() > 0) {
-        sb.append(" ");
-      }
-      for (int j = this.gameStacks[PileType.FOUNDATION.ordinal()][i].size() - 1; j >= 0; j--) {
-        Card card = (Card) this.gameStacks[PileType.FOUNDATION.ordinal()][i].get(j);
-        if (j == 0) {
-          sb.append(card.toString());
-        } else {
-          sb.append(card.toString() + ", ");
-        }
-      }
-      sb.append("\n");
-    }
-    //open piles
-    for (int i = 0; i < this.numberOfOpenPiles; i++) {
-      sb.append("O" + (i + 1) + ":");
-      if (this.gameStacks[PileType.OPEN.ordinal()][i].size() > 0) {
-        sb.append(" ");
-      }
-      for (int j = this.gameStacks[PileType.OPEN.ordinal()][i].size() - 1; j >= 0; j--) {
-        Card card = (Card) this.gameStacks[PileType.OPEN.ordinal()][i].get(j);
-        if (j == 0) {
-          sb.append(card.toString());
-        } else {
-          sb.append(card.toString() + ", ");
-        }
-      }
-      sb.append("\n");
-    }
-    //cascade piles
-    for (int i = 0; i < this.numberOfCascadePiles; i++) {
-      sb.append("C" + (i + 1) + ":");
-      if (this.gameStacks[PileType.CASCADE.ordinal()][i].size() > 0) {
-        sb.append(" ");
-      }
-      for (int j = this.gameStacks[PileType.CASCADE.ordinal()][i].size() - 1; j >= 0; j--) {
-        Card card = (Card) this.gameStacks[PileType.CASCADE.ordinal()][i].get(j);
-        if (j == 0) {
-          sb.append(card.toString());
-        } else {
-          sb.append(card.toString() + ", ");
-        }
-      }
-      sb.append("\n");
-    }
-    return sb.toString().trim();
-
+    return helperGetState();
   }
 
+  /**
+   * A helper function to check if the deck that is being used to start the game is a valid one.
+   *
+   * @param myList the deck of card objects that is used in dealing and starting the game
+   * @return returns true if the deck is valid, else otherwise
+   */
   private boolean helperIsDeckValid(List<Card> myList) {
     Set mySet = new HashSet<>();
     if (myList.size() != 52) {
@@ -278,36 +197,31 @@ public class FreecellModel implements FreecellOperations {
       if (aMyList.getSuit().ordinal() <= 1 && aMyList.getSuit().ordinal() >= 4) {
         return false;
       }
-
-
     }
     return true;
-
-
   }
 
+  /**
+   * A helper function for the move method in the game.
+   *
+   * @param source the type of pile from where you wish to move the card
+   * @param pileNumber the pile number of the source file
+   * @param cardIndex the cardIndex of the card that we wish to move
+   * @param destination the type of pile where we wish to add the card
+   * @param destPileNumber the pile number of our destination pile type
+   */
   private void helper2(PileType source, int pileNumber, int cardIndex, PileType destination,
       int destPileNumber) {
-
-//    if(destination.ordinal()==PileType.FOUNDATION.ordinal()&&destPileNumber>3){
-//      throw new IllegalArgumentException("sfdsfdsf");
-//    }
-
-//    if(this.gameStacks[source.ordinal()][pileNumber].size()==0){
-//
-//
-//      throw new IllegalArgumentException("daft punk!");
-//    }
 
     // check if the card to be moved is one from the foundation piles
     if (source.ordinal() == PileType.FOUNDATION.ordinal()) {
       if (source.ordinal() == destination.ordinal() && pileNumber == destPileNumber) {
         Card myCard = (Card) this.gameStacks[source.ordinal()][pileNumber].removeLast();
         this.gameStacks[source.ordinal()][pileNumber].addLast(myCard);
-      } else {
-
-        throw new IllegalArgumentException("A card cannot be moved from the foundation pile");
       }
+    }
+    if (this.gameStacks[source.ordinal()][pileNumber].size() == 0) {
+      throw new IllegalArgumentException("The pile from which you want to move the card is empty");
     }
     //check if the card to be moved is moving from the same source pile to the same destination pile
 
@@ -357,19 +271,22 @@ public class FreecellModel implements FreecellOperations {
     if (source.ordinal() == PileType.CASCADE.ordinal() && destination.ordinal() == PileType.CASCADE
         .ordinal()
         || source.ordinal() == PileType.OPEN.ordinal() && destination.ordinal() == PileType.CASCADE
-        .ordinal()) {
+        .ordinal() || source.ordinal() == PileType.FOUNDATION.ordinal()
+        && destination.ordinal() == PileType.CASCADE.ordinal()
+    ) {
 
-      // take the cards from the source and the destination piles to compare on the basis of the game rules
+      // take the cards from the source and the destination piles to compare on
+      // the basis of the game rules
       Card myCard1 = (Card) this.gameStacks[source.ordinal()][pileNumber].removeLast();
       Card myCard2 = (Card) this.gameStacks[destination.ordinal()][destPileNumber].removeLast();
-//compare suits, red cannot move on red and black cannot move on black
+      //compare suits, red cannot move on red and black cannot move on black
       if (myCard1.getSuit().ordinal() == 1 && myCard2.getSuit().ordinal() == 2) {
         this.gameStacks[source.ordinal()][pileNumber].addLast(myCard1);
         this.gameStacks[destination.ordinal()][destPileNumber].addLast(myCard2);
 
         throw new IllegalArgumentException("Suits of the same colour");
       }
-//compare suits, red cannot move on red and black cannot move on black
+      //compare suits, red cannot move on red and black cannot move on black
       if (myCard1.getSuit().ordinal() == myCard2.getSuit().ordinal()) {
         throw new IllegalArgumentException("Same suits!!");
       }
@@ -399,6 +316,8 @@ public class FreecellModel implements FreecellOperations {
     //cascade to open move
 
     if (source.ordinal() == PileType.CASCADE.ordinal() && destination.ordinal() == PileType.OPEN
+        .ordinal() || source.ordinal() == PileType.FOUNDATION.ordinal()
+        && destination.ordinal() == PileType.OPEN
         .ordinal()) {
       Card myCard1 = (Card) this.gameStacks[source.ordinal()][pileNumber]
           .removeLast(); // remove the card on top of the source pile
@@ -420,21 +339,11 @@ public class FreecellModel implements FreecellOperations {
         || source.ordinal() == PileType.OPEN.ordinal()
         && destination.ordinal() == PileType.FOUNDATION.ordinal()) {
 
-      int h = this.gameStacks[source.ordinal()][pileNumber].size();
-      int b = this.gameStacks[destination.ordinal()][destPileNumber].size();
       Card myCard = (Card) this.gameStacks[source.ordinal()][pileNumber].removeLast();
-      int a = myCard.getRank();
-
-      int c = pileNumber;
-      int d = cardIndex;
-      int e = destPileNumber;
-      int f = source.ordinal();
-      int g = destination.ordinal();
       if (myCard.getRank() == 1) {
         if (myCard.getRank() == 1
             && this.gameStacks[destination.ordinal()][destPileNumber].size() != 0) {
-          throw new IllegalArgumentException(
-              a + " " + b + " " + c + " " + d + " " + e + " " + f + " " + g + " " + h);
+          throw new IllegalArgumentException("Invalid move");
 
         } else {
           this.gameStacks[destination.ordinal()][destPileNumber].addLast(myCard);
@@ -451,9 +360,7 @@ public class FreecellModel implements FreecellOperations {
 
           }
         }
-//        else {
-//          throw new IllegalArgumentException("lets roll babe");
-//        }
+
       }
     }
 
@@ -462,8 +369,115 @@ public class FreecellModel implements FreecellOperations {
       this.gameStacks[source.ordinal()][pileNumber].addLast(myCard);
 
     }
+  }
 
 
+  private String helperGetState() {
+    if (!isGameStarted) {
+      return "";
+    }
+    StringBuilder sb = new StringBuilder();
+
+    if (this.moveMade) {
+      //foundation piles
+      for (int i = 0; i < this.numberOfFoundationPiles; i++) {
+        sb.append("F" + (i + 1) + ":");
+        if (this.gameStacks[PileType.FOUNDATION.ordinal()][i].size() > 0) {
+          sb.append(" ");
+        }
+        for (int j = 0; j < this.gameStacks[PileType.FOUNDATION.ordinal()][i].size(); j++) {
+          Card card = (Card) this.gameStacks[PileType.FOUNDATION.ordinal()][i].get(j);
+          if (j == this.gameStacks[PileType.FOUNDATION.ordinal()][i].size() - 1) {
+            sb.append(card.toString());
+          } else {
+            sb.append(card.toString() + ", ");
+          }
+        }
+        sb.append("\n");
+      }
+      //open piles
+      for (int i = 0; i < this.numberOfOpenPiles; i++) {
+        sb.append("O" + (i + 1) + ":");
+        if (this.gameStacks[PileType.OPEN.ordinal()][i].size() > 0) {
+          sb.append(" ");
+        }
+        for (int j = 0; j < this.gameStacks[PileType.OPEN.ordinal()][i].size(); j++) {
+          Card card = (Card) this.gameStacks[PileType.OPEN.ordinal()][i].get(j);
+          if (j == this.gameStacks[PileType.OPEN.ordinal()][i].size() - 1) {
+            sb.append(card.toString());
+          } else {
+            sb.append(card.toString() + ", ");
+          }
+        }
+        sb.append("\n");
+      }
+      //cascade piles
+      for (int i = 0; i < this.numberOfCascadePiles; i++) {
+        sb.append("C" + (i + 1) + ":");
+        if (this.gameStacks[PileType.CASCADE.ordinal()][i].size() > 0) {
+          sb.append(" ");
+        }
+        for (int j = 0; j < this.gameStacks[PileType.CASCADE.ordinal()][i].size(); j++) {
+          Card card = (Card) this.gameStacks[PileType.CASCADE.ordinal()][i].get(j);
+          if (j == this.gameStacks[PileType.CASCADE.ordinal()][i].size() - 1) {
+            sb.append(card.toString());
+          } else {
+            sb.append(card.toString() + ", ");
+          }
+        }
+        sb.append("\n");
+      }
+    } else {
+      //foundation piles
+      for (int i = 0; i < this.numberOfFoundationPiles; i++) {
+        sb.append("F" + (i + 1) + ":");
+        if (this.gameStacks[PileType.FOUNDATION.ordinal()][i].size() > 0) {
+          sb.append(" ");
+        }
+        for (int j = this.gameStacks[PileType.FOUNDATION.ordinal()][i].size() - 1; j >= 0; j--) {
+          Card card = (Card) this.gameStacks[PileType.FOUNDATION.ordinal()][i].get(j);
+          if (j == 0) {
+            sb.append(card.toString());
+          } else {
+            sb.append(card.toString() + ", ");
+          }
+        }
+        sb.append("\n");
+      }
+      //open piles
+      for (int i = 0; i < this.numberOfOpenPiles; i++) {
+        sb.append("O" + (i + 1) + ":");
+        if (this.gameStacks[PileType.OPEN.ordinal()][i].size() > 0) {
+          sb.append(" ");
+        }
+        for (int j = this.gameStacks[PileType.OPEN.ordinal()][i].size() - 1; j >= 0; j--) {
+          Card card = (Card) this.gameStacks[PileType.OPEN.ordinal()][i].get(j);
+          if (j == 0) {
+            sb.append(card.toString());
+          } else {
+            sb.append(card.toString() + ", ");
+          }
+        }
+        sb.append("\n");
+      }
+      //cascade piles
+      for (int i = 0; i < this.numberOfCascadePiles; i++) {
+        sb.append("C" + (i + 1) + ":");
+        if (this.gameStacks[PileType.CASCADE.ordinal()][i].size() > 0) {
+          sb.append(" ");
+        }
+        for (int j = this.gameStacks[PileType.CASCADE.ordinal()][i].size() - 1; j >= 0; j--) {
+          Card card = (Card) this.gameStacks[PileType.CASCADE.ordinal()][i].get(j);
+          if (j == 0) {
+            sb.append(card.toString());
+          } else {
+            sb.append(card.toString() + ", ");
+          }
+        }
+        sb.append("\n");
+      }
+    }
+    return sb.toString().trim();
   }
 
 

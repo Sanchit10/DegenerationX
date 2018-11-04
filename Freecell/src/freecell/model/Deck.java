@@ -2,9 +2,10 @@ package freecell.model;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Stack;
+
 
 public class Deck {
+
   private LinkedList<Card> deckOfCards;
 
   /**
@@ -12,10 +13,10 @@ public class Deck {
    */
   public Deck() {
     this.deckOfCards = new LinkedList<>();
-    int CARDS_PER_SUIT = 13;
-    for (int i =1; i<=  CARDS_PER_SUIT; i++) {
-      int SUITS_PER_DECK = 4;
-      for (int j = 1; j <= SUITS_PER_DECK; j++) {
+    int cardPerSuit = 13;
+    for (int i = 1; i <= cardPerSuit; i++) {
+      int suitsPerDeck = 4;
+      for (int j = 1; j <= suitsPerDeck; j++) {
         this.deckOfCards.add(new Card(i, j));
       }
     }
