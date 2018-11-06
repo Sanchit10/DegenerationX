@@ -1,4 +1,4 @@
-package freecell.abstracts;
+package freecell.model;
 
 import java.util.Collections;
 import java.util.HashSet;
@@ -6,21 +6,15 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
-import freecell.model.Card;
-import freecell.model.Deck;
-import freecell.model.FreecellModel;
-import freecell.model.FreecellOperations;
-import freecell.model.FreecellOperationsBuilder;
-import freecell.model.PileType;
-
 public abstract class AbstractModel implements FreecellOperations {
+
   private boolean isGameStarted = false;
   private boolean moveMade = false;
-  private int numberOfCascadePiles;
-  private int numberOfOpenPiles;
+  int numberOfCascadePiles;
+  int numberOfOpenPiles;
   private int numberOfFoundationPiles;
 
-  private LinkedList[][] gameStacks;
+  LinkedList[][] gameStacks;
 
   /**
    * Constructor used in builder class.
@@ -37,6 +31,10 @@ public abstract class AbstractModel implements FreecellOperations {
    */
   public static FreecellModelBuilder getBuilder() {
     return new FreecellModelBuilder();
+  }
+
+  public static FreecellModelBuilder1 getBuilder1() {
+    return new FreecellModelBuilder1();
   }
 
   /**
@@ -56,6 +54,7 @@ public abstract class AbstractModel implements FreecellOperations {
       this.numberOfOpenPiles = 4;
       this.numberOfFoundationPiles = 4;
     }
+
 
     /**
      * Build function sets cascade piles for game.
@@ -89,8 +88,68 @@ public abstract class AbstractModel implements FreecellOperations {
      * Build function for builder class.
      */
     public FreecellModel build() {
-      return new FreecellModel(this.numberOfCascadePiles, this.numberOfOpenPiles);
+      return new FreecellModel(this.numberOfCascadePiles, this.numberOfOpenPiles) {
+      };
     }
+
+  }
+
+
+  /**
+   * Nested builder class that implements the FreecellOperationsBuilder1.
+   */
+  public static class FreecellModelBuilder1 implements FreecellOperationsMultiMoveBuilder {
+
+    private int numberOfCascadePiles;
+    private int numberOfOpenPiles;
+    private int numberOfFoundationPiles;
+
+    /**
+     * Constructor sets default game.
+     */
+    public FreecellModelBuilder1() {
+      this.numberOfCascadePiles = 8;
+      this.numberOfOpenPiles = 4;
+      this.numberOfFoundationPiles = 4;
+    }
+
+
+    /**
+     * Build function sets cascade piles for game.
+     *
+     * @param c number of cascade piles to set
+     * @return FreecellOperationsBuilder
+     */
+    public FreecellOperationsMultiMoveBuilder cascades(int c) {
+      if (c < 4) {
+        throw new IllegalArgumentException("The game can only have cascade piles between 4 and 8");
+      }
+      this.numberOfCascadePiles = c;
+      return this;
+    }
+
+    /**
+     * Build function sets open piles for game.
+     *
+     * @param o number of open piles to set
+     * @return FreecellOperationsBuilder
+     */
+    public FreecellOperationsMultiMoveBuilder opens(int o) {
+      if (o < 1) {
+        throw new IllegalArgumentException("The game can only have cascade piles between 4 and 8");
+      }
+      this.numberOfOpenPiles = o;
+      return this;
+    }
+
+    /**
+     * Build function for builder class.
+     */
+    public FreecellMultiMoveModel build1() {
+      return new FreecellMultiMoveModel(this.numberOfCascadePiles, this.numberOfOpenPiles) {
+      };
+    }
+
   }
 
   @Override
@@ -139,14 +198,14 @@ public abstract class AbstractModel implements FreecellOperations {
     // deal cards to cascade piles
     for (int i = 0; !myList.isEmpty(); i++) {
       this.gameStacks[PileType.CASCADE.ordinal()][i % this.numberOfCascadePiles]
-              .push(myList.removeLast());//gamestack[][].push(mylist.pop())
+          .push(myList.removeLast());//gamestack[][].push(mylist.pop())
     }
 
   }
 
   @Override
   public void move(PileType source, int pileNumber, int cardIndex, PileType destination,
-                   int destPileNumber) throws IllegalArgumentException {
+      int destPileNumber) throws IllegalArgumentException {
     if (!isGameStarted) {
       throw new IllegalStateException("The game has not started");
     }
@@ -160,9 +219,9 @@ public abstract class AbstractModel implements FreecellOperations {
       return true;
     }
     return this.gameStacks[PileType.FOUNDATION.ordinal()][0].size() == 13
-            && this.gameStacks[PileType.FOUNDATION.ordinal()][1].size() == 13
-            && this.gameStacks[PileType.FOUNDATION.ordinal()][2].size() == 13
-            && this.gameStacks[PileType.FOUNDATION.ordinal()][3].size() == 13;
+        && this.gameStacks[PileType.FOUNDATION.ordinal()][1].size() == 13
+        && this.gameStacks[PileType.FOUNDATION.ordinal()][2].size() == 13
+        && this.gameStacks[PileType.FOUNDATION.ordinal()][3].size() == 13;
 
   }
 
@@ -262,7 +321,7 @@ public abstract class AbstractModel implements FreecellOperations {
    * @param destPileNumber the pile number of our destination pile type
    */
   private void helper2(PileType source, int pileNumber, int cardIndex, PileType destination,
-                       int destPileNumber) {
+      int destPileNumber) {
 
     // check if the card to be moved is one from the foundation piles
     if (source.ordinal() == PileType.FOUNDATION.ordinal()) {
@@ -282,48 +341,48 @@ public abstract class AbstractModel implements FreecellOperations {
     }
     //pile numbers not equal to the actual number of piles
     if (source.ordinal() == PileType.CASCADE.ordinal() && pileNumber > (this.numberOfCascadePiles
-            - 1)) {
+        - 1)) {
       throw new IllegalArgumentException("Invalid pile number");
     }
     //pile numbers not equal to the actual number of piles
     if (destination.ordinal() == PileType.CASCADE.ordinal() && destPileNumber > (
-            this.numberOfCascadePiles - 1)) {
+        this.numberOfCascadePiles - 1)) {
       throw new IllegalArgumentException("Invalid pile number");
     }
 
     //invalid destination pile number
     if (source.ordinal() == PileType.CASCADE.ordinal() && destination.ordinal() == PileType.OPEN
-            .ordinal() && destPileNumber > (
-            this.numberOfOpenPiles - 1)) {
+        .ordinal() && destPileNumber > (
+        this.numberOfOpenPiles - 1)) {
       throw new IllegalArgumentException("Invalid destination pile number");
     }
 
     if (source.ordinal() == PileType.CASCADE.ordinal()
-            && destination.ordinal() == PileType.FOUNDATION.ordinal() && destPileNumber > (3)) {
+        && destination.ordinal() == PileType.FOUNDATION.ordinal() && destPileNumber > (3)) {
       throw new IllegalArgumentException("Invalid destination pile number");
     }
     if (source.ordinal() == PileType.OPEN.ordinal() && pileNumber > (this.numberOfOpenPiles - 1)) {
       throw new IllegalArgumentException("Invalid pile number");
     }
     if (destination.ordinal() == PileType.OPEN.ordinal() && destPileNumber > (this.numberOfOpenPiles
-            - 1)) {
+        - 1)) {
       throw new IllegalArgumentException("Invalid pile number");
     }
 
     //check if the card to be moved is on top of the pile or not
 
-    if ((this.gameStacks[source.ordinal()][pileNumber].size()) - 1 != cardIndex) {
+    if (cardIndex < 0 || cardIndex >= this.gameStacks[source.ordinal()][pileNumber].size()) {
       throw new IllegalArgumentException(
-              "The card you're trying to move is not on top of the deck");
+          "The card you're trying to move is not on top of the deck");
     }
 
     // cascade to cascade
     //open to cascade
     if (source.ordinal() == PileType.CASCADE.ordinal() && destination.ordinal() == PileType.CASCADE
-            .ordinal()
-            || source.ordinal() == PileType.OPEN.ordinal() && destination.ordinal() == PileType.CASCADE
-            .ordinal() || source.ordinal() == PileType.FOUNDATION.ordinal()
-            && destination.ordinal() == PileType.CASCADE.ordinal()
+        .ordinal()
+        || source.ordinal() == PileType.OPEN.ordinal() && destination.ordinal() == PileType.CASCADE
+        .ordinal() || source.ordinal() == PileType.FOUNDATION.ordinal()
+        && destination.ordinal() == PileType.CASCADE.ordinal()
     ) {
 
       // take the cards from the source and the destination piles to compare on
@@ -365,13 +424,13 @@ public abstract class AbstractModel implements FreecellOperations {
 
     //cascade to open move
     if (source.ordinal() == PileType.CASCADE.ordinal() && destination.ordinal() == PileType.OPEN
-            .ordinal() || source.ordinal() == PileType.FOUNDATION.ordinal()
-            && destination.ordinal() == PileType.OPEN
-            .ordinal()) {
+        .ordinal() || source.ordinal() == PileType.FOUNDATION.ordinal()
+        && destination.ordinal() == PileType.OPEN
+        .ordinal()) {
       Card myCard1 = (Card) this.gameStacks[source.ordinal()][pileNumber]
-              .removeLast(); // remove the card on top of the source pile
+          .removeLast(); // remove the card on top of the source pile
       if (this.gameStacks[destination.ordinal()][destPileNumber].size()
-              != 0) { //check if open pile is empty or not
+          != 0) { //check if open pile is empty or not
 
         throw new IllegalArgumentException("The open pile is already full");
       }
@@ -384,14 +443,14 @@ public abstract class AbstractModel implements FreecellOperations {
     //open to foundation
 
     if (source.ordinal() == PileType.CASCADE.ordinal()
-            && destination.ordinal() == PileType.FOUNDATION.ordinal()
-            || source.ordinal() == PileType.OPEN.ordinal()
-            && destination.ordinal() == PileType.FOUNDATION.ordinal()) {
+        && destination.ordinal() == PileType.FOUNDATION.ordinal()
+        || source.ordinal() == PileType.OPEN.ordinal()
+        && destination.ordinal() == PileType.FOUNDATION.ordinal()) {
 
       Card myCard = (Card) this.gameStacks[source.ordinal()][pileNumber].removeLast();
       if (myCard.getRank() == 1) {
         if (myCard.getRank() == 1
-                && this.gameStacks[destination.ordinal()][destPileNumber].size() != 0) {
+            && this.gameStacks[destination.ordinal()][destPileNumber].size() != 0) {
           throw new IllegalArgumentException("Invalid move");
 
         } else {
@@ -403,7 +462,7 @@ public abstract class AbstractModel implements FreecellOperations {
         if (this.gameStacks[destination.ordinal()][destPileNumber].size() != 0) {
           Card myCard1 = (Card) this.gameStacks[destination.ordinal()][destPileNumber].removeLast();
           if (myCard.getSuit().ordinal() == myCard1.getSuit().ordinal()
-                  && myCard.getRank() == myCard1.getRank() + 1) {
+              && myCard.getRank() == myCard1.getRank() + 1) {
             this.gameStacks[destination.ordinal()][destPileNumber].addLast(myCard1);
             this.gameStacks[destination.ordinal()][destPileNumber].addLast(myCard);
 
@@ -419,4 +478,13 @@ public abstract class AbstractModel implements FreecellOperations {
 
     }
   }
+
+  /**
+   * Getter method for gamestacks.
+   */
+  protected LinkedList getGameStacks(int pileType, int pileNumber) {
+    return this.gameStacks[pileType][pileNumber];
+  }
+
+
 }

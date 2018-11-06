@@ -3,7 +3,7 @@ package freecell.model;
 import java.util.LinkedList;
 import java.util.List;
 
-import freecell.abstracts.AbstractModel;
+
 
 /**
  * A class that that implements the FreeCellOperations interface i.e. the entire functionality as.
@@ -11,13 +11,13 @@ import freecell.abstracts.AbstractModel;
  */
 public class FreecellModel extends AbstractModel {
 
-  private LinkedList[][] gameStacks;
+
 
   /**
    * Constructor used in builder class.
    */
   public FreecellModel(int numberOfCascadePiles, int numberOfOpenPiles) {
-   super(numberOfCascadePiles, numberOfOpenPiles);
+    super(numberOfCascadePiles, numberOfOpenPiles);
   }
 
   /**
