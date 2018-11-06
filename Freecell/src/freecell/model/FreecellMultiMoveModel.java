@@ -5,7 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 
-public abstract class FreecellMultiMoveModel extends AbstractModel {
+public class FreecellMultiMoveModel extends AbstractModel {
 
   public LinkedList[][] gameStacks;
 
@@ -135,8 +135,6 @@ public abstract class FreecellMultiMoveModel extends AbstractModel {
           super.gameStacks[source.ordinal()][pileNumber].remove(i);
           i--;
         }
-
-
       }
     }
   }
