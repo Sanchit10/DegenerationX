@@ -198,7 +198,7 @@ public abstract class AbstractModel implements FreecellOperations {
     // deal cards to cascade piles
     for (int i = 0; !myList.isEmpty(); i++) {
       this.gameStacks[PileType.CASCADE.ordinal()][i % this.numberOfCascadePiles]
-          .push(myList.removeLast());//gamestack[][].push(mylist.pop())
+          .addLast(myList.pop());//gamestack[][].push(mylist.pop())
     }
 
   }

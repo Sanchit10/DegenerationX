@@ -76,6 +76,7 @@ public class FreecellController implements IFreecellController {
 
       //print the current state
       if (inputsTaken % 3 == 0) {
+        //fixme append this
         System.out.println("\n\n" + model.getGameState() + "\n");
       }
 

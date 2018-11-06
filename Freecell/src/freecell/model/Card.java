@@ -61,14 +61,14 @@ public class Card {
   /**
    * Getter for the suit of this card.
    */
-  Enum<suits> getSuit() {
+  public Enum<suits> getSuit() {
     return this.cardSuit;
   }
 
   /**
    * Getter for the rank of this card.
    */
-  int getRank() {
+  public int getRank() {
     return this.rank;
   }
 
