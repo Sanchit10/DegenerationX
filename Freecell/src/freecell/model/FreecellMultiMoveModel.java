@@ -21,7 +21,6 @@ public abstract class FreecellMultiMoveModel extends AbstractModel {
   }
 
 
-
   public List getDeck() {
     return super.getDeck();
 
@@ -50,6 +49,11 @@ public abstract class FreecellMultiMoveModel extends AbstractModel {
           && destination.ordinal() == PileType.CASCADE
           .ordinal() && cardIndex != super.gameStacks[source.ordinal()][pileNumber].size() - 1
       ) {
+        if (cardIndex < 0
+            || cardIndex >= super.gameStacks[source.ordinal()][pileNumber].size() - 1) {
+          throw new IllegalArgumentException("Invalid card index");
+        }
+
         int numberOfCardsToBeMoved =
             super.gameStacks[source.ordinal()][pileNumber].size() - cardIndex + 1;
         int numberOfEmptyCascadePiles = 0;
