@@ -7,7 +7,7 @@ public class main {
 
   public static void main(String args[]) {
     FreecellMultiMoveModel myModel = FreecellMultiMoveModel.getBuilder1().cascades(4).opens(20)
-        .build1();
+        .build();
     List deck = myModel.getDeck();
     myModel.startGame(deck, false);
 
@@ -72,6 +72,11 @@ public class main {
     System.out.println(myModel.getGameState());
 
     System.out.println(myModel.isGameOver());
+    myModel.move(PileType.CASCADE,3,9,PileType.CASCADE,1);
+
+    System.out.println();
+    System.out.println(myModel.getGameState());
+
   }
 }
 

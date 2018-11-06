@@ -67,24 +67,29 @@ public abstract class FreecellMultiMoveModel extends AbstractModel {
         Card myCard2 = (Card) super.gameStacks[destination.ordinal()][destPileNumber].removeLast();
 
         if (myCard1.getSuit().ordinal() == 1 && myCard2.getSuit().ordinal() == 2) {
+          super.gameStacks[destination.ordinal()][destPileNumber].addLast(myCard2);
           throw new IllegalArgumentException("Suits of the same colour");
         }
         //compare suits, red cannot move on red and black cannot move on black
         if (myCard1.getSuit().ordinal() == myCard2.getSuit().ordinal()) {
+          super.gameStacks[destination.ordinal()][destPileNumber].addLast(myCard2);
           throw new IllegalArgumentException("Same suits!!");
         }
 
         if (myCard1.getSuit().ordinal() == 3 && myCard2.getSuit().ordinal() == 4) {
+          super.gameStacks[destination.ordinal()][destPileNumber].addLast(myCard2);
           throw new IllegalArgumentException("Suits of the same colour");
         }
         if (myCard1.getSuit().ordinal() == 2 && myCard2.getSuit().ordinal() == 1) {
+          super.gameStacks[destination.ordinal()][destPileNumber].addLast(myCard2);
           throw new IllegalArgumentException("Suits of the same colour");
         }
         if (myCard1.getSuit().ordinal() == 4 && myCard2.getSuit().ordinal() == 3) {
+          super.gameStacks[destination.ordinal()][destPileNumber].addLast(myCard2);
           throw new IllegalArgumentException("Suits of the same colour");
         }
         if (myCard1.getRank() != myCard2.getRank() - 1) {
-
+          super.gameStacks[destination.ordinal()][destPileNumber].addLast(myCard2);
           throw new IllegalArgumentException("Ranks are not in accordance to the game rules");
         }
 

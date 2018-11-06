@@ -145,7 +145,7 @@ public abstract class AbstractModel implements FreecellOperations {
     /**
      * Build function for builder class.
      */
-    public FreecellMultiMoveModel build1() {
+    public FreecellMultiMoveModel build() {
       return new FreecellMultiMoveModel(this.numberOfCascadePiles, this.numberOfOpenPiles) {
       };
     }
@@ -398,19 +398,29 @@ public abstract class AbstractModel implements FreecellOperations {
       }
       //compare suits, red cannot move on red and black cannot move on black
       if (myCard1.getSuit().ordinal() == myCard2.getSuit().ordinal()) {
+        this.gameStacks[source.ordinal()][pileNumber].addLast(myCard1);
+        this.gameStacks[destination.ordinal()][destPileNumber].addLast(myCard2);
         throw new IllegalArgumentException("Same suits!!");
       }
 
       if (myCard1.getSuit().ordinal() == 3 && myCard2.getSuit().ordinal() == 4) {
+        this.gameStacks[source.ordinal()][pileNumber].addLast(myCard1);
+        this.gameStacks[destination.ordinal()][destPileNumber].addLast(myCard2);
         throw new IllegalArgumentException("Suits of the same colour");
       }
       if (myCard1.getSuit().ordinal() == 2 && myCard2.getSuit().ordinal() == 1) {
+        this.gameStacks[source.ordinal()][pileNumber].addLast(myCard1);
+        this.gameStacks[destination.ordinal()][destPileNumber].addLast(myCard2);
         throw new IllegalArgumentException("Suits of the same colour");
       }
       if (myCard1.getSuit().ordinal() == 4 && myCard2.getSuit().ordinal() == 3) {
+        this.gameStacks[source.ordinal()][pileNumber].addLast(myCard1);
+        this.gameStacks[destination.ordinal()][destPileNumber].addLast(myCard2);
         throw new IllegalArgumentException("Suits of the same colour");
       }
       if (myCard1.getRank() != myCard2.getRank() - 1) {
+        this.gameStacks[source.ordinal()][pileNumber].addLast(myCard1);
+        this.gameStacks[destination.ordinal()][destPileNumber].addLast(myCard2);
         throw new IllegalArgumentException("Ranks are not in accordance to the game rules");
       }
 
@@ -431,6 +441,7 @@ public abstract class AbstractModel implements FreecellOperations {
           .removeLast(); // remove the card on top of the source pile
       if (this.gameStacks[destination.ordinal()][destPileNumber].size()
           != 0) { //check if open pile is empty or not
+        this.gameStacks[source.ordinal()][pileNumber].addLast(myCard1);
 
         throw new IllegalArgumentException("The open pile is already full");
       }
@@ -451,6 +462,7 @@ public abstract class AbstractModel implements FreecellOperations {
       if (myCard.getRank() == 1) {
         if (myCard.getRank() == 1
             && this.gameStacks[destination.ordinal()][destPileNumber].size() != 0) {
+          this.gameStacks[source.ordinal()][pileNumber].addLast(myCard);
           throw new IllegalArgumentException("Invalid move");
 
         } else {
