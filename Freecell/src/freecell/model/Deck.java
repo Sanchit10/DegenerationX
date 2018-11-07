@@ -4,6 +4,9 @@ import java.util.LinkedList;
 import java.util.List;
 
 
+/**
+ * A deck class that is used for creating a valid deck of playing cards.
+ */
 public class Deck {
 
   private LinkedList<Card> deckOfCards;

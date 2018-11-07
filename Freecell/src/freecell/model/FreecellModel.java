@@ -11,22 +11,23 @@ public class FreecellModel extends AbstractModel {
   /**
    * Concrete builder for this class.
    */
-  public static class Builder extends AbstractModel.Builder<Builder>{
+  public static class Builder extends AbstractModel.Builder<Builder> {
+
     @Override
-    public FreecellModel build(){
+    public FreecellModel build() {
       return new FreecellModel(this);
     }
 
     @Override
-    protected Builder self(){ return this; }
+    protected Builder self() {
+      return this;
+    }
   }
 
   /**
    * Builder constructor.
-   *
-   * @param builder
    */
-  private FreecellModel(Builder builder){
+  private FreecellModel(Builder builder) {
     super(builder);
   }
 
@@ -47,7 +48,7 @@ public class FreecellModel extends AbstractModel {
 
   public void move(PileType source, int pileNumber, int cardIndex, PileType destination,
       int destPileNumber) throws IllegalArgumentException {
-    super.move(source,pileNumber,cardIndex,destination,destPileNumber);
+    super.move(source, pileNumber, cardIndex, destination, destPileNumber);
 
   }
 

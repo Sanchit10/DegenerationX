@@ -1,11 +1,12 @@
 package freecell.controller;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 import java.util.Set;
-import java.util.stream.Stream;
 
 import freecell.model.Card;
 import freecell.model.FreecellOperations;
@@ -29,14 +30,17 @@ public class FreecellController implements IFreecellController {
 
   @Override
   public void playGame(List deck, FreecellOperations model, boolean shuffle)
-          throws IllegalArgumentException, IllegalStateException {
+      throws IllegalArgumentException, IllegalStateException {
 
-    if(deck == null || model == null || !helperIsDeckValid(deck)){
+    if (deck == null || model == null || !helperIsDeckValid(deck)) {
       throw new IllegalArgumentException("Illegeal argument FreecellController.playGame().");
     }
 
-    //upon completion, this var indicates whether the game was won, or quit
-    boolean winner = false;
+    //unnecessary shuffle
+    if (shuffle) {
+      Collections.shuffle(deck);
+    }
+
     //modulo 3 is applied to determine proper input (0 == srcPile, 1 == index, 2== destPile)
     int inputsTaken = 0;
 
@@ -50,17 +54,17 @@ public class FreecellController implements IFreecellController {
 
     //messages displayed to prompt input
     String[] inputMessages = {
-            "\nPlease enter a source pile to draw your card: ",
-            "\nPlease enter the index of the source pile you would like to grab: ",
-            "\nPlease enter the destination pile you would like to" +
-                    " drop your selection on: "};
+        "\nPlease enter a source pile to draw your card: ",
+        "\nPlease enter the index of the source pile you would like to grab: ",
+        "\nPlease enter the destination pile you would like to" +
+            " drop your selection on: "};
 
     //error messages displayed to prompt after erroneous input
     String[] errorMessages = {
-            "\nPlease re-enter a source pile to draw your card.\n",
-            "\nPlease re-enter the index of the source pile you would like to grab.\n",
-            "\nPlease re-enter the destination pile you would like to" +
-                    " drop your selection on.\n"};
+        "\nPlease re-enter a source pile to draw your card.\n",
+        "\nPlease re-enter the index of the source pile you would like to grab.\n",
+        "\nPlease re-enter the destination pile you would like to" +
+            " drop your selection on.\n"};
 
     //init scanner to take user input
     Scanner scan = new Scanner(this.in);
@@ -76,26 +80,34 @@ public class FreecellController implements IFreecellController {
 
       //print the current state
       if (inputsTaken % 3 == 0) {
-        //fixme append this
-        System.out.println("\n\n" + model.getGameState() + "\n");
+        try {
+          System.out.println("\n");
+          this.out.append(model.getGameState() + "\n");
+          System.out.println("\n");
+        } catch (IOException e) {
+          e.printStackTrace();
+        }
       }
 
       //get user input
       System.out.println(inputMessages[inputsTaken % 3]);
-      userInput = scan.next();
 
-      //check for "quit" status
-      if(quitGame(userInput)){
+//      userInput = (scan.hasNext()) ? scan.nextLine() : "no next line";
+
+      if (scan.hasNextLine()) {
+        userInput = scan.nextLine();
+      } else {
+        try {
+          this.out.append("Game over." + "\n");
+        } catch (IOException e) {
+          e.printStackTrace();
+        }
         return;
       }
 
-      if(scan.hasNext()){
-        while(scan.hasNext()){
-          if(quitGame(scan.next())){
-            return;
-          }
-        }
-        continue;
+      //check for "quit" status
+      if (quitGame(userInput)) {
+        return;
       }
 
       //get user intent
@@ -108,8 +120,8 @@ public class FreecellController implements IFreecellController {
           if (!readibleSrc(userInput)) {
             //display error message
             System.out.println("\nInvalid card index input.\n" +
-                    "Inputs taken: " + inputsTaken + "\n" +
-                    "User input: " + userInput);
+                "Inputs taken: " + inputsTaken + "\n" +
+                "User input: " + userInput);
             //break from switch and retry for valid input
             break;
           }
@@ -125,12 +137,12 @@ public class FreecellController implements IFreecellController {
 
             //append to this.out
             try {
-              this.out.append(userInput);
               //increment inputsTaken
+              this.out.append(userInput);
               inputsTaken++;
             } catch (IOException e) {
               throw new IllegalStateException("Failed to append " + userInput + " to " +
-                      "Appendable output");
+                  "Appendable output");
             }
           }
 
@@ -143,11 +155,11 @@ public class FreecellController implements IFreecellController {
 
             try {
               //append input to sout and increment
-              this.out.append(userInput);
+              this.out.append(userInput + "\n");
               inputsTaken++;
             } catch (IOException e) {
               throw new IllegalStateException("Failed to append " + userInput + " to " +
-                      "Appendable output");
+                  "Appendable output");
             }
           }
 
@@ -160,8 +172,8 @@ public class FreecellController implements IFreecellController {
           //if input is invalid
           if (!validIndex(userInput)) {
             System.out.println("\nInvalid card index input.\n" +
-                    "Inputs taken: " + inputsTaken + "\n" +
-                    "User input: " + userInput);
+                "Inputs taken: " + inputsTaken + "\n" +
+                "User input: " + userInput);
             break;
           }
 
@@ -169,11 +181,11 @@ public class FreecellController implements IFreecellController {
           srcCardIndex = Integer.parseInt(userInput) - 1;
           try {
             //append input to sout and increment
-            this.out.append(userInput);
+            this.out.append(userInput + "\n");
             inputsTaken++;
           } catch (IOException e) {
             throw new IllegalStateException("Failed to append " + userInput + " to " +
-                    "Appendable output");
+                "Appendable output");
           }
 
           //break from case 1
@@ -186,8 +198,8 @@ public class FreecellController implements IFreecellController {
           //or character != 'o' and 'c' and 'f'
           if (!validDest(userInput)) {
             System.out.println("\nInvalid card destination input.\n" +
-                    "Inputs taken: " + inputsTaken + "\n" +
-                    "User input: " + userInput);
+                "Inputs taken: " + inputsTaken + "\n" +
+                "User input: " + userInput);
             break;
           }
 
@@ -203,11 +215,11 @@ public class FreecellController implements IFreecellController {
             //append to this.out
             try {
               //append input to sout and increment
-              this.out.append(userInput);
+              this.out.append(userInput + "\n");
               inputsTaken++;
             } catch (IOException e) {
               throw new IllegalStateException("Failed to append " + userInput + " to " +
-                      "Appendable output");
+                  "Appendable output");
             }
           }
 
@@ -221,11 +233,11 @@ public class FreecellController implements IFreecellController {
             //append to this.out
             try {
               //append input to sout and increment
-              this.out.append(userInput);
+              this.out.append(userInput + "\n");
               inputsTaken++;
             } catch (IOException e) {
               throw new IllegalStateException("Failed to append " + userInput + " to " +
-                      "Appendable output");
+                  "Appendable output");
             }
           }
 
@@ -238,34 +250,41 @@ public class FreecellController implements IFreecellController {
 
             //append to this.out
             try {
-              this.out.append(userInput);
               //increment inputsTaken
+              this.out.append(userInput + "\n");
               inputsTaken++;
             } catch (IOException e) {
               throw new IllegalStateException("Failed to append " + userInput + " to " +
-                      "Appendable output");
+                  "Appendable output");
             }
           }
 
           try {
             model.move(sourcePileType, srcPileNum, srcCardIndex, destPileType, destPileNum);
-          }catch(Exception e){
-            System.out.println("\n\n" + e.getMessage());
-            System.out.println("Invalid move. Please try again.");
+          } catch (Exception e1) {
+            System.out.println("\n\n" + e1.getMessage());
+            try {
+              this.out.append("Invalid move. Try again." + "\n");
+            } catch (IOException e2) {
+              System.err.println("Failed to append error message");
+            }
             break;
           }
           //break from case 2
           break;
+
+        //intentionally left blank
+        default:
+          break;
       }
     }
 
-
     //print results
     System.out.println(model.getGameState());
-    if (winner) {
-      System.out.println("Game Over.");
-    } else {
-      System.out.println("You have quit the game.");// probably not necessary
+    try {
+      this.out.append("Game Over." + "\n");
+    } catch (IOException e) {
+      System.err.println("Game NOT over" + e);
     }
   }
 
@@ -278,8 +297,8 @@ public class FreecellController implements IFreecellController {
     //if length of input > 2
     //or character != 'o' or 'c'
     if (userInput.length() > 2
-            ||
-            (srcPileChar != 'c' && srcPileChar != 'o')) {
+        ||
+        (srcPileChar != 'c' && srcPileChar != 'o')) {
       return false;
     }
     return true;
@@ -294,8 +313,8 @@ public class FreecellController implements IFreecellController {
     //if length of input > 2
     //or character != 'o' and 'c' and 'f'
     if (userInput.length() > 2
-            ||
-            (destPileChar != 'c' && destPileChar != 'o' && destPileChar != 'f')) {
+        ||
+        (destPileChar != 'c' && destPileChar != 'o' && destPileChar != 'f')) {
       return false;
     }
     return true;
@@ -346,16 +365,14 @@ public class FreecellController implements IFreecellController {
 
   /**
    * Quits the game if userinput.matches "q".
-   *
-   * @param userInput
    */
-  private boolean quitGame(String userInput){
+  private boolean quitGame(String userInput) {
     //check for "quit" status
-    if (userInput.toLowerCase().matches("q")) {
+    if (userInput.toLowerCase().contains("q")) {
       try {
-        this.out.append("Game quit prematurely.");
+        this.out.append("Game quit prematurely." + "\n");
         return true;
-      } catch (IOException e){
+      } catch (IOException e) {
         System.err.println("Failed to quit game.");
         return false;
       }
