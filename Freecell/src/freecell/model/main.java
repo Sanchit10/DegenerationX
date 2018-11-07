@@ -9,12 +9,21 @@ import freecell.controller.FreecellController;
 public class main {
 
   public static void main(String args[]) {
-    FreecellMultiMoveModel myModel = FreecellMultiMoveModel.getBuilder1().cascades(4).opens(4)
-        .build();
-    List deck = myModel.getDeck();
+//    FreecellMultiMoveModel myModel = new FreecellMultiMoveModel.Builder().cascades(4).opens(4)
+//        .build();
+//    List deck = myModel.getDeck();
+//    //myModel.startGame(deck, false);
+//    FreecellController controller = new FreecellController(new InputStreamReader(System.in), System.out);
+//    controller.playGame(deck, myModel, false);
+
+
+    FreecellMultiMoveModel myModel2 = FreecellMultiMoveModel.getBuilder().build();
+    List deck2 = myModel2.getDeck();
     //myModel.startGame(deck, false);
-    FreecellController controller = new FreecellController(new InputStreamReader(System.in), System.out);
-    controller.playGame(deck, myModel, false);
+    FreecellController controller2 = new FreecellController(new InputStreamReader(System.in), System.out);
+    controller2.playGame(deck2, myModel2, false);
+
+
 
 //    myModel.move(PileType.CASCADE, 0, 12, PileType.OPEN, 0);
 //    myModel.move(PileType.CASCADE, 0, 11, PileType.OPEN, 1);

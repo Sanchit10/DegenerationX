@@ -6,7 +6,7 @@ public interface FreecellOperationsBuilder {
 
   FreecellOperationsBuilder opens(int o);
 
-  <Card> FreecellModel build();
+  <Card> FreecellOperations build();
 
 }
 
