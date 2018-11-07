@@ -77,23 +77,18 @@ public class FreecellController implements IFreecellController {
       //print the current state
       if (inputsTaken % 3 == 0) {
         //fixme append this
-        try {
-          this.out.append(model.getGameState());
-         // System.out.println("\n\n" + model.getGameState() + "\n");
-        }catch(IOException e){
-          System.err.println("Failed to append gamestate to output");
-        }
+        System.out.println("\n\n" + model.getGameState() + "\n");
       }
 
       //get user input
       System.out.println(inputMessages[inputsTaken % 3]);
       userInput = scan.next();
 
-
       //check for "quit" status
       if(quitGame(userInput)){
         return;
       }
+
       if(scan.hasNext()){
         while(scan.hasNext()){
           if(quitGame(scan.next())){
