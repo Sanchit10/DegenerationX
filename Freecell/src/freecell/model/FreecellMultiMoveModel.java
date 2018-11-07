@@ -96,6 +96,12 @@ public class FreecellMultiMoveModel extends AbstractModel {
    * A helper method to check if the number of cards to be moved is less than the number of free.
    * open piles and the number of empty cascade piles, specifically (N+1)*2^K where N is the numeber
    * of free open piles and K is the number of Empty cascade piles
+   *
+   * @param source the type of pile from where you wish to move the card
+   * @param pileNumber the pile number of the source file
+   * @param cardIndex the cardIndex of the card that we wish to move
+   * @param destination the type of pile where we wish to add the card
+   * @param destPileNumber the pile number of our destination pile type
    */
   private void helper1(PileType source, int pileNumber, int cardIndex, PileType destination,
       int destPileNumber) {
@@ -121,6 +127,15 @@ public class FreecellMultiMoveModel extends AbstractModel {
     }
   }
 
+  /**
+   * A helper method to check if the card that we wish to move from the source cascade pile to the.
+   * destination cascade pile obeys the game rules or not
+   *
+   * * @param source the type of pile from where you wish to move the card * @param pileNumber the
+   * pile number of the source file * @param cardIndex the cardIndex of the card that we wish to
+   * move * @param destination the type of pile where we wish to add the card * @param
+   * destPileNumber the pile number of our destination pile type
+   */
   private void helper2(PileType source, int pileNumber, int cardIndex, PileType destination,
       int destPileNumber) {
     Card myCard1 = (Card) super.gameStacks[source.ordinal()][pileNumber].get(cardIndex);
@@ -158,6 +173,16 @@ public class FreecellMultiMoveModel extends AbstractModel {
 
   }
 
+  /**
+   * A helper function that checks if the pile of multiple cards that we wish to move obeys the.
+   * game rules or not
+   *
+   * @param source the type of pile from where you wish to move the card
+   * @param pileNumber the pile number of the source file
+   * @param cardIndex the cardIndex of the card that we wish to move
+   * @param destination the type of pile where we wish to add the card
+   * @param destPileNumber the pile number of our destination pile type
+   */
   private void helper3(PileType source, int pileNumber, int cardIndex, PileType destination,
       int destPileNumber) {
     Card myCard2 = (Card) super.gameStacks[destination.ordinal()][destPileNumber].removeLast();
@@ -193,6 +218,16 @@ public class FreecellMultiMoveModel extends AbstractModel {
 
   }
 
+  /**
+   * A helper function that adds the pile of multiple cards to the destination piles if all.
+   * conditions are met
+   *
+   * @param source the type of pile from where you wish to move the card
+   * @param pileNumber the pile number of the source file
+   * @param cardIndex the cardIndex of the card that we wish to move
+   * @param destination the type of pile where we wish to add the card
+   * @param destPileNumber the pile number of our destination pile type
+   */
   private void helper4(PileType source, int pileNumber, int cardIndex, PileType destination,
       int destPileNumber) {
     for (int i = cardIndex; i < super.gameStacks[source.ordinal()][pileNumber].size(); i++) {
