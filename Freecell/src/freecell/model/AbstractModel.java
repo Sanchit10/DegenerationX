@@ -16,141 +16,181 @@ public abstract class AbstractModel implements FreecellOperations {
 
   LinkedList[][] gameStacks;
 
-  /**
-   * Constructor used in builder class.
-   */
-  public AbstractModel(int numberOfCascadePiles, int numberOfOpenPiles) {
-    this.numberOfCascadePiles = numberOfCascadePiles;
-    this.numberOfOpenPiles = numberOfOpenPiles;
+  //abstract builder
+  abstract static class Builder<T extends Builder<T>> implements FreecellOperationsBuilder{
+    //builder fields
+    int cascades = 8;
+    int opens = 4;
+
+    //add
+    public T cascades(int c) {
+      if (c < 4) {
+        throw new IllegalArgumentException("The game can only have cascade piles between 4 and 8");
+      }
+      this.cascades = c;
+      return self();
+    }
+
+    //add
+    public T opens(int o) {
+      if (o < 1) {
+        throw new IllegalArgumentException("The game can only have cascade piles between 4 and 8");
+      }
+      this.opens = o;
+      return self();
+    }
+
+    //abstract build declaration
+    public abstract AbstractModel build();
+
+    //subclasses must override
+    protected abstract T self();
+  }
+
+  AbstractModel(Builder<?> builder){
+    this.numberOfCascadePiles = builder.cascades;
+    this.numberOfOpenPiles = builder.opens;
     this.numberOfFoundationPiles = 4;
     this.gameStacks = new LinkedList[3][];
   }
 
-  /**
-   * Gets the builder for this model.
-   */
-  public static FreecellModelBuilder getBuilder() {
-    return new FreecellModelBuilder();
-  }
-
-  public static FreecellModelBuilder1 getBuilder1() {
-    return new FreecellModelBuilder1();
-  }
-
-  /**
-   * Nested builder class that implements the FreecellOperationsBuilder.
-   */
-  public static class FreecellModelBuilder implements FreecellOperationsBuilder {
-
-    private int numberOfCascadePiles;
-    private int numberOfOpenPiles;
-    private int numberOfFoundationPiles;
-
-    /**
-     * Constructor sets default game.
-     */
-    public FreecellModelBuilder() {
-      this.numberOfCascadePiles = 8;
-      this.numberOfOpenPiles = 4;
-      this.numberOfFoundationPiles = 4;
-    }
 
 
-    /**
-     * Build function sets cascade piles for game.
-     *
-     * @param c number of cascade piles to set
-     * @return FreecellOperationsBuilder
-     */
-    public FreecellOperationsBuilder cascades(int c) {
-      if (c < 4) {
-        throw new IllegalArgumentException("The game can only have cascade piles between 4 and 8");
-      }
-      this.numberOfCascadePiles = c;
-      return this;
-    }
+//  /**
+//   * Constructor used in builder class.
+//   */
+//  public AbstractModel(int numberOfCascadePiles, int numberOfOpenPiles) {
+//    this.numberOfCascadePiles = numberOfCascadePiles;
+//    this.numberOfOpenPiles = numberOfOpenPiles;
+//    this.numberOfFoundationPiles = 4;
+//    this.gameStacks = new LinkedList[3][];
+//  }
+//
+//  /**
+//   * Gets the builder for this model.
+//   */
+//  public static FreecellModelBuilder getBuilder() {
+//    return new FreecellModelBuilder();
+//  }
+//
+//  public static FreecellModelBuilder1 getBuilder1() {
+//    return new FreecellModelBuilder1();
+//  }
+//
+//  /**
+//   * Nested builder class that implements the FreecellOperationsBuilder.
+//   */
+//  public static class FreecellModelBuilder implements FreecellOperationsBuilder {
+//
+//    private int numberOfCascadePiles;
+//    private int numberOfOpenPiles;
+//    private int numberOfFoundationPiles;
+//
+//    /**
+//     * Constructor sets default game.
+//     */
+//    public FreecellModelBuilder() {
+//      this.numberOfCascadePiles = 8;
+//      this.numberOfOpenPiles = 4;
+//      this.numberOfFoundationPiles = 4;
+//    }
+//
+//
+//    /**
+//     * Build function sets cascade piles for game.
+//     *
+//     * @param c number of cascade piles to set
+//     * @return FreecellOperationsBuilder
+//     */
+//    public FreecellOperationsBuilder cascades(int c) {
+//      if (c < 4) {
+//        throw new IllegalArgumentException("The game can only have cascade piles between 4 and 8");
+//      }
+//      this.numberOfCascadePiles = c;
+//      return this;
+//    }
+//
+//    /**
+//     * Build function sets open piles for game.
+//     *
+//     * @param o number of open piles to set
+//     * @return FreecellOperationsBuilder
+//     */
+//    public FreecellOperationsBuilder opens(int o) {
+//      if (o < 1) {
+//        throw new IllegalArgumentException("The game can only have cascade piles between 4 and 8");
+//      }
+//      this.numberOfOpenPiles = o;
+//      return this;
+//    }
+//
+//    /**
+//     * Build function for builder class.
+//     */
+//    public FreecellModel build() {
+//      return new FreecellModel(this.numberOfCascadePiles, this.numberOfOpenPiles) {
+//      };
+//    }
+//
+//  }
 
-    /**
-     * Build function sets open piles for game.
-     *
-     * @param o number of open piles to set
-     * @return FreecellOperationsBuilder
-     */
-    public FreecellOperationsBuilder opens(int o) {
-      if (o < 1) {
-        throw new IllegalArgumentException("The game can only have cascade piles between 4 and 8");
-      }
-      this.numberOfOpenPiles = o;
-      return this;
-    }
 
-    /**
-     * Build function for builder class.
-     */
-    public FreecellModel build() {
-      return new FreecellModel(this.numberOfCascadePiles, this.numberOfOpenPiles) {
-      };
-    }
+//  /**
+//   * Nested builder class that implements the FreecellOperationsBuilder1.
+//   */
+//  public static class FreecellModelBuilder1 implements FreecellOperationsMultiMoveBuilder {
+//
+//    private int numberOfCascadePiles;
+//    private int numberOfOpenPiles;
+//    private int numberOfFoundationPiles;
+//
+//    /**
+//     * Constructor sets default game.
+//     */
+//    public FreecellModelBuilder1() {
+//      this.numberOfCascadePiles = 8;
+//      this.numberOfOpenPiles = 4;
+//      this.numberOfFoundationPiles = 4;
+//    }
+//
+//
+//    /**
+//     * Build function sets cascade piles for game.
+//     *
+//     * @param c number of cascade piles to set
+//     * @return FreecellOperationsBuilder
+//     */
+//    public FreecellOperationsMultiMoveBuilder cascades(int c) {
+//      if (c < 4) {
+//        throw new IllegalArgumentException("The game can only have cascade piles between 4 and 8");
+//      }
+//      this.numberOfCascadePiles = c;
+//      return this;
+//    }
+//
+//    /**
+//     * Build function sets open piles for game.
+//     *
+//     * @param o number of open piles to set
+//     * @return FreecellOperationsBuilder
+//     */
+//    public FreecellOperationsMultiMoveBuilder opens(int o) {
+//      if (o < 1) {
+//        throw new IllegalArgumentException("The game can only have cascade piles between 4 and 8");
+//      }
+//      this.numberOfOpenPiles = o;
+//      return this;
+//    }
 
-  }
+//    /**
+//     * Build function for builder class.
+//     */
+//    public FreecellMultiMoveModel build() {
+//      return new FreecellMultiMoveModel(this.numberOfCascadePiles, this.numberOfOpenPiles) {
+//      };
+//    }
 
 
-  /**
-   * Nested builder class that implements the FreecellOperationsBuilder1.
-   */
-  public static class FreecellModelBuilder1 implements FreecellOperationsMultiMoveBuilder {
-
-    private int numberOfCascadePiles;
-    private int numberOfOpenPiles;
-    private int numberOfFoundationPiles;
-
-    /**
-     * Constructor sets default game.
-     */
-    public FreecellModelBuilder1() {
-      this.numberOfCascadePiles = 8;
-      this.numberOfOpenPiles = 4;
-      this.numberOfFoundationPiles = 4;
-    }
-
-
-    /**
-     * Build function sets cascade piles for game.
-     *
-     * @param c number of cascade piles to set
-     * @return FreecellOperationsBuilder
-     */
-    public FreecellOperationsMultiMoveBuilder cascades(int c) {
-      if (c < 4) {
-        throw new IllegalArgumentException("The game can only have cascade piles between 4 and 8");
-      }
-      this.numberOfCascadePiles = c;
-      return this;
-    }
-
-    /**
-     * Build function sets open piles for game.
-     *
-     * @param o number of open piles to set
-     * @return FreecellOperationsBuilder
-     */
-    public FreecellOperationsMultiMoveBuilder opens(int o) {
-      if (o < 1) {
-        throw new IllegalArgumentException("The game can only have cascade piles between 4 and 8");
-      }
-      this.numberOfOpenPiles = o;
-      return this;
-    }
-
-    /**
-     * Build function for builder class.
-     */
-    public FreecellMultiMoveModel build() {
-      return new FreecellMultiMoveModel(this.numberOfCascadePiles, this.numberOfOpenPiles) {
-      };
-    }
-
-  }
 
   @Override
   public List getDeck() {

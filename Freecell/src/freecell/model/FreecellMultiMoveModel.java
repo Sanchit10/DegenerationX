@@ -10,20 +10,38 @@ public class FreecellMultiMoveModel extends AbstractModel {
   public LinkedList[][] gameStacks;
 
   /**
-   * Constructor used in builder class.
+   * Concrete builder for this class.
    */
-  public FreecellMultiMoveModel(int numberOfCascadePiles, int numberOfOpenPiles) {
-    super(numberOfCascadePiles, numberOfOpenPiles);
+  public static class Builder extends AbstractModel.Builder<Builder>{
+
+    @Override
+    public FreecellMultiMoveModel build(){
+      return new FreecellMultiMoveModel(this);
+    }
+
+    @Override
+    protected Builder self(){ return this; }
   }
 
-  public static FreecellModelBuilder1 getBuilder1() {
-    return new FreecellModelBuilder1();
+  /**
+   * Builder constructor.
+   *
+   * @param builder
+   */
+  private FreecellMultiMoveModel(Builder builder){
+    super(builder);
+  }
+
+  /**
+   * Gets the builder for this model.
+   */
+  public static Builder getBuilder() {
+    return new Builder();
   }
 
 
   public List getDeck() {
     return super.getDeck();
-
   }
 
   public void startGame(List deck, boolean shuffle) throws IllegalArgumentException {

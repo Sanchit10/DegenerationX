@@ -1,9 +1,6 @@
 package freecell.model;
 
-import java.util.LinkedList;
 import java.util.List;
-
-
 
 /**
  * A class that that implements the FreeCellOperations interface i.e. the entire functionality as.
@@ -11,20 +8,33 @@ import java.util.List;
  */
 public class FreecellModel extends AbstractModel {
 
+  /**
+   * Concrete builder for this class.
+   */
+  public static class Builder extends AbstractModel.Builder<Builder>{
+    @Override
+    public FreecellModel build(){
+      return new FreecellModel(this);
+    }
 
+    @Override
+    protected Builder self(){ return this; }
+  }
 
   /**
-   * Constructor used in builder class.
+   * Builder constructor.
+   *
+   * @param builder
    */
-  public FreecellModel(int numberOfCascadePiles, int numberOfOpenPiles) {
-    super(numberOfCascadePiles, numberOfOpenPiles);
+  private FreecellModel(Builder builder){
+    super(builder);
   }
 
   /**
    * Gets the builder for this model.
    */
-  public static FreecellModelBuilder getBuilder() {
-    return new FreecellModelBuilder();
+  public static Builder getBuilder() {
+    return new Builder();
   }
 
   public List getDeck() {
