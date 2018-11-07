@@ -11,6 +11,7 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
 public class FreecellOperationsTest {
@@ -414,13 +415,13 @@ public class FreecellOperationsTest {
 
   }
 
-
   // write the test to check the deck when it is shuffled!!!!
 
   @Test
   public void testGame4O4C1() {
     //create model
-    FreecellMultiMoveModel model1 = FreecellMultiMoveModel.getBuilder().cascades(4).opens(4).build();
+    FreecellMultiMoveModel model1 = FreecellMultiMoveModel.getBuilder().cascades(4).opens(4)
+        .build();
     List deck = model1.getDeck();
     model1.startGame(deck, false);
     System.out.println(model1.getGameState() + "\n\n");
@@ -565,7 +566,8 @@ public class FreecellOperationsTest {
    */
   @Test(expected = IllegalArgumentException.class)
   public void testNegativeCascadePiles1() {
-    FreecellMultiMoveModel model = FreecellMultiMoveModel.getBuilder().cascades(8).opens(-4).build();
+    FreecellMultiMoveModel model = FreecellMultiMoveModel.getBuilder().cascades(8).opens(-4)
+        .build();
 
   }
 
@@ -574,7 +576,8 @@ public class FreecellOperationsTest {
    */
   @Test(expected = IllegalArgumentException.class)
   public void testNegativeOpenPiles1() {
-    FreecellMultiMoveModel model = FreecellMultiMoveModel.getBuilder().cascades(-8).opens(4).build();
+    FreecellMultiMoveModel model = FreecellMultiMoveModel.getBuilder().cascades(-8).opens(4)
+        .build();
 
   }
 
@@ -641,7 +644,80 @@ public class FreecellOperationsTest {
 
   }
 
+  /**
+   * Test to check if the movement of more than one type of card is possible or not.
+   */
+  @Test(expected = IllegalArgumentException.class)
+  public void cardsToBeMovedGreaterThanAvailableEmptyPiles() {
+    FreecellMultiMoveModel myModel = FreecellMultiMoveModel.getBuilder().cascades(4).opens(1)
+        .build();
+    List deck = myModel.getDeck();
+    myModel.startGame(deck, false);
+    myModel.move(PileType.CASCADE, 0, 12, PileType.OPEN, 0);
+    myModel.move(PileType.CASCADE, 2, 12, PileType.CASCADE, 1);
+    myModel.move(PileType.OPEN, 0, 0, PileType.FOUNDATION, 0);
+    myModel.move(PileType.CASCADE, 3, 12, PileType.FOUNDATION, 1);
+    myModel.move(PileType.CASCADE, 3, 11, PileType.FOUNDATION, 1);
+    myModel.move(PileType.CASCADE, 0, 11, PileType.CASCADE, 3);
 
+
+  }
+
+  /**
+   * Test to check if the multiple cards being moved obey the rank and suit rules or not.
+   */
+  @Test(expected = IllegalArgumentException.class)
+  public void multipleCardsNotOfTheSameSuit() {
+    FreecellMultiMoveModel myModel = FreecellMultiMoveModel.getBuilder().cascades(4).opens(1)
+        .build();
+    List deck = myModel.getDeck();
+    myModel.startGame(deck, false);
+    myModel.move(PileType.CASCADE, 0, 12, PileType.FOUNDATION, 0);
+    myModel.move(PileType.CASCADE, 1, 12, PileType.FOUNDATION, 1);
+    myModel.move(PileType.CASCADE, 2, 12, PileType.FOUNDATION, 2);
+    myModel.move(PileType.CASCADE, 3, 12, PileType.FOUNDATION, 3);
+
+    myModel.move(PileType.CASCADE, 0, 11, PileType.OPEN, 0);
+    myModel.move(PileType.CASCADE, 3, 11, PileType.OPEN, 2);
+    myModel.move(PileType.CASCADE, 3, 10, PileType.OPEN, 1);
+    myModel.move(PileType.CASCADE, 2, 11, PileType.CASCADE, 0);
+    myModel.move(PileType.CASCADE, 0, 10, PileType.CASCADE, 3);
+    myModel.move(PileType.CASCADE, 3, 10, PileType.CASCADE, 0);
+  }
+
+  /**
+   * Test to check if the user is trying to move more cards than the available number of free open.
+   * and empty cascade piles
+   */
+  @Test(expected = IllegalArgumentException.class)
+  public void moveMoreCardsThanPossible() {
+    FreecellMultiMoveModel myModel = FreecellMultiMoveModel.getBuilder().cascades(4).opens(1)
+        .build();
+    List deck = myModel.getDeck();
+    myModel.startGame(deck, false);
+    myModel.move(PileType.CASCADE, 0, 6, PileType.FOUNDATION, 0);
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void moveMultipleCardsNotObeyingGameRules() {
+    FreecellMultiMoveModel myModel = FreecellMultiMoveModel.getBuilder().cascades(4).opens(1)
+        .build();
+    List deck = myModel.getDeck();
+    myModel.startGame(deck, false);
+    myModel.move(PileType.CASCADE, 0, 12, PileType.OPEN, 0);
+    myModel.move(PileType.CASCADE, 3, 12, PileType.OPEN, 1);
+    myModel.move(PileType.CASCADE, 3, 11, PileType.OPEN, 2);
+    myModel.move(PileType.CASCADE, 1, 12, PileType.OPEN, 3);
+    myModel.move(PileType.CASCADE, 2, 12, PileType.CASCADE, 1);
+    myModel.move(PileType.OPEN, 0, 0, PileType.FOUNDATION, 0);
+    myModel.move(PileType.OPEN, 1, 0, PileType.FOUNDATION, 1);
+    myModel.move(PileType.OPEN, 3, 0, PileType.FOUNDATION, 2);
+    myModel.move(PileType.OPEN, 2, 0, PileType.FOUNDATION, 1);
+    myModel.move(PileType.CASCADE, 3, 10, PileType.OPEN, 1);
+    myModel.move(PileType.CASCADE, 1, 11, PileType.CASCADE, 2);
+
+
+  }
 
 
   /**
@@ -816,7 +892,7 @@ public class FreecellOperationsTest {
   }
 
   @Test
-  public void moveMultipleCard(){
+  public void moveMultipleCard() {
     String s = "F1: A♥, 2♥, 3♥\n"
         + "F2: A♠, 2♠, 3♠\n"
         + "F3: A♦\n"
@@ -834,23 +910,38 @@ public class FreecellOperationsTest {
         .build();
     List deck = myModel.getDeck();
     myModel.startGame(deck, false);
-    myModel.move(PileType.CASCADE,0,12,PileType.OPEN,0);
-    myModel.move(PileType.CASCADE,3,12,PileType.OPEN,1);
-    myModel.move(PileType.CASCADE,3,11,PileType.OPEN,2);
-    myModel.move(PileType.CASCADE,1,12,PileType.OPEN,3);
-    myModel.move(PileType.CASCADE,2,12,PileType.CASCADE,1);
-    myModel.move(PileType.OPEN,0,0,PileType.FOUNDATION,0);
-    myModel.move(PileType.OPEN,1,0,PileType.FOUNDATION,1);
-    myModel.move(PileType.OPEN,3,0,PileType.FOUNDATION,2);
-    myModel.move(PileType.OPEN, 2,0,PileType.FOUNDATION,1);
-    myModel.move(PileType.CASCADE, 3,10 ,PileType.OPEN,1);
-    myModel.move(PileType.CASCADE,0, 11, PileType.FOUNDATION,0);
-    myModel.move(PileType.CASCADE,2,11,PileType.OPEN,3);
-    myModel.move(PileType.OPEN,1,0,PileType.FOUNDATION,1);
-    myModel.move(PileType.CASCADE,1,11,PileType.CASCADE,2);
-    myModel.move(PileType.CASCADE,0,10,PileType.FOUNDATION,0);
-    myModel.move(PileType.CASCADE,2,10,PileType.CASCADE,0);
-    assertEquals(myModel.getGameState(),s);
+    myModel.move(PileType.CASCADE, 0, 12, PileType.OPEN, 0);
+    myModel.move(PileType.CASCADE, 3, 12, PileType.OPEN, 1);
+    myModel.move(PileType.CASCADE, 3, 11, PileType.OPEN, 2);
+    myModel.move(PileType.CASCADE, 1, 12, PileType.OPEN, 3);
+    myModel.move(PileType.CASCADE, 2, 12, PileType.CASCADE, 1);
+    myModel.move(PileType.OPEN, 0, 0, PileType.FOUNDATION, 0);
+    myModel.move(PileType.OPEN, 1, 0, PileType.FOUNDATION, 1);
+    myModel.move(PileType.OPEN, 3, 0, PileType.FOUNDATION, 2);
+    myModel.move(PileType.OPEN, 2, 0, PileType.FOUNDATION, 1);
+    myModel.move(PileType.CASCADE, 3, 10, PileType.OPEN, 1);
+    myModel.move(PileType.CASCADE, 0, 11, PileType.FOUNDATION, 0);
+    myModel.move(PileType.CASCADE, 2, 11, PileType.OPEN, 3);
+    myModel.move(PileType.OPEN, 1, 0, PileType.FOUNDATION, 1);
+    myModel.move(PileType.CASCADE, 1, 11, PileType.CASCADE, 2);
+    myModel.move(PileType.CASCADE, 0, 10, PileType.FOUNDATION, 0);
+    myModel.move(PileType.CASCADE, 2, 10, PileType.CASCADE, 0);
+    assertEquals(myModel.getGameState(), s);
+
+  }
+
+  @Test
+  public void testMultiMoveModelWithShuffle() {
+    FreecellMultiMoveModel myModel1 = FreecellMultiMoveModel.getBuilder().cascades(4).opens(4)
+        .build();
+    List deck = myModel1.getDeck();
+    myModel1.startGame(deck, false);
+    String s = myModel1.getGameState();
+    FreecellMultiMoveModel myModel2 = FreecellMultiMoveModel.getBuilder().cascades(4).opens(4)
+        .build();
+    List deck1 = myModel2.getDeck();
+    myModel1.startGame(deck1, true);
+    assertNotEquals(myModel2.getGameState(), s);
 
   }
 
