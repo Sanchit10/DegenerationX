@@ -1,4 +1,4 @@
-A freecell game designed entirely in Java!
+A freecell game written in Java.
 
 
 
